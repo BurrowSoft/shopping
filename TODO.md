@@ -47,5 +47,20 @@ SerpAPI returns `rating` and `reviews` count per product.
 The home page has category links. Wire them to `/search?q=<category>` with pre-filled queries.
 - Ensure trending searches on the home page are real (can be hardcoded popular terms or fetched from a trending products endpoint if SerpAPI supports it)
 
-### 7. AI summary
+### 7. Loading overlay — show while APIs are fetching
+The search results page must show a loading overlay while SerpAPI (and any future provider) fetches. Requirements:
+- Overlay shows: "Loading products from Google Shopping…" (add more lines as providers are added)
+- As each resolves, its line gets a checkmark and results stream in
+- If a provider fails, show "[Provider] unavailable" in muted text — no hard error
+- Implement as a client component (`<ShoppingLoadingOverlay providers={string[]} />`)
+- Overlay fades out once all providers have settled
+
+### 8. "Visit store" redirect buttons
+Every product card and the detail page must have labelled buttons per offer. Requirements:
+- Button label: "Buy on [Retailer]" (e.g. "Buy on Amazon", "Buy on Walmart") — retailer name comes from `offer.retailer`
+- Links to `offer.link` in a new tab (`target="_blank" rel="noopener noreferrer"`)
+- On the detail page price comparison table, each row has its own "Buy on [Retailer]" button
+- Cheapest offer gets a "Best price" badge
+
+### 9. AI summary
 Use `summarize()` from `@burrowsoft/shared` to generate a short buying guide blurb on the search results page (e.g. "Here are the top picks for X, with prices ranging from $Y to $Z").
