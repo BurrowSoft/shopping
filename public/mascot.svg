@@ -1,15 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" role="img" aria-label="ShoppingMole mascot">
-  <g id="mole-base" fill="white" stroke="#1e2d3d" stroke-linecap="round" stroke-linejoin="round">
-    <!-- Crown puffs -->
-    <circle cx="91" cy="28" r="5" stroke-width="2.5"/>
-    <circle cx="100" cy="22" r="6" stroke-width="2.5"/>
-    <circle cx="109" cy="28" r="5" stroke-width="2.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" fill="none" role="img" aria-label="ShoppingMole mascot">
+  <g id="mole-base" stroke="#1e2d3d" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Crown tuft -->
+    <circle cx="91" cy="28" r="5" fill="white" stroke-width="2.5"/>
+    <circle cx="100" cy="22" r="6" fill="white" stroke-width="2.5"/>
+    <circle cx="109" cy="28" r="5" fill="white" stroke-width="2.5"/>
     <!-- Head -->
-    <circle cx="100" cy="83" r="57" stroke-width="3.5"/>
-    <!-- Left lens -->
-    <circle cx="81" cy="89" r="19" stroke-width="4"/>
-    <!-- Right lens -->
-    <circle cx="119" cy="89" r="19" stroke-width="4"/>
+    <circle cx="100" cy="83" r="57" fill="white" stroke-width="3.5"/>
+    <!-- Left glasses lens -->
+    <circle cx="81" cy="89" r="19" fill="white" stroke-width="4"/>
+    <!-- Right glasses lens -->
+    <circle cx="119" cy="89" r="19" fill="white" stroke-width="4"/>
     <!-- Bridge -->
     <line x1="100" y1="87" x2="100" y2="92" stroke-width="3"/>
     <!-- Temple arms -->
@@ -21,39 +21,43 @@
     <!-- Right pupil -->
     <circle cx="119" cy="89" r="9" fill="#1e2d3d" stroke="none"/>
     <circle cx="122" cy="86" r="3.5" fill="white" stroke="none"/>
+    <!-- Snout -->
+    <ellipse cx="100" cy="114" rx="17" ry="12" fill="#f0e0d0" stroke-width="2"/>
     <!-- Nose -->
-    <ellipse cx="100" cy="113" rx="6" ry="4.5" fill="#1e2d3d" stroke="none"/>
+    <ellipse cx="100" cy="109" rx="6" ry="4.5" fill="#1e2d3d" stroke="none"/>
+    <!-- Smile -->
+    <path d="M90 118 Q100 126 110 118" stroke-width="2" fill="none"/>
     <!-- Ledge -->
-    <rect x="20" y="130" width="160" height="18" rx="7" stroke-width="3.5"/>
+    <rect x="20" y="130" width="160" height="18" rx="7" fill="#1e2d3d" stroke-width="3.5"/>
     <!-- Left paw -->
-    <ellipse cx="50" cy="130" rx="20" ry="11" stroke-width="3"/>
-    <path d="M37,126 Q43,119 50,122 Q57,119 63,126" fill="none" stroke-width="2"/>
+    <ellipse cx="50" cy="130" rx="20" ry="11" fill="white" stroke-width="3"/>
+    <path d="M37 126 Q43 119 50 122 Q57 119 63 126" fill="none" stroke-width="2"/>
     <!-- Right paw -->
-    <ellipse cx="150" cy="130" rx="20" ry="11" stroke-width="3"/>
-    <path d="M137,126 Q143,119 150,122 Q157,119 163,126" fill="none" stroke-width="2"/>
+    <ellipse cx="150" cy="130" rx="20" ry="11" fill="white" stroke-width="3"/>
+    <path d="M137 126 Q143 119 150 122 Q157 119 163 126" fill="none" stroke-width="2"/>
   </g>
 
-  <g id="prop" fill="white" stroke="#1e2d3d" stroke-linecap="round" stroke-linejoin="round">
-    <!-- Left shopping bag -->
-    <!-- Bag handle (arc connecting to paw) -->
-    <path d="M23,140 C23,128 47,128 47,140" fill="none" stroke-width="2.5"/>
-    <!-- Bag body (trapezoid, wider at top) -->
-    <path d="M18,140 L52,140 L57,186 L13,186 Z" stroke-width="2.5"/>
-    <!-- Bag label box -->
-    <rect x="22" y="153" width="26" height="18" rx="2" fill="none" stroke-width="1.5"/>
-    <!-- Bag label lines -->
-    <line x1="25" y1="159" x2="45" y2="159" stroke-width="1.5" opacity="0.5"/>
-    <line x1="25" y1="164" x2="45" y2="164" stroke-width="1.5" opacity="0.5"/>
+  <g id="prop" stroke="#1e2d3d" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Left shopping bag handle (curved, attaches at paw) -->
+    <path d="M23 140 C23 128 47 128 47 140" fill="none" stroke="#7c3aed" stroke-width="3"/>
+    <!-- Left bag body (trapezoid) -->
+    <path d="M18 140 L52 140 L57 188 L13 188 Z" fill="#7c3aed" stroke-width="2"/>
+    <!-- Left bag shine -->
+    <path d="M22 148 L20 180" stroke="white" stroke-width="1.5" opacity="0.35"/>
+    <!-- Left bag label -->
+    <rect x="21" y="154" width="26" height="20" rx="3" fill="white" stroke="#1e2d3d" stroke-width="1.5"/>
+    <line x1="24" y1="161" x2="44" y2="161" stroke="#1e2d3d" stroke-width="1.5" opacity="0.5"/>
+    <line x1="24" y1="167" x2="44" y2="167" stroke="#1e2d3d" stroke-width="1.5" opacity="0.5"/>
 
-    <!-- Right shopping bag -->
-    <!-- Bag handle -->
-    <path d="M153,140 C153,128 177,128 177,140" fill="none" stroke-width="2.5"/>
-    <!-- Bag body -->
-    <path d="M148,140 L182,140 L187,186 L143,186 Z" stroke-width="2.5"/>
-    <!-- Bag label box -->
-    <rect x="152" y="153" width="26" height="18" rx="2" fill="none" stroke-width="1.5"/>
-    <!-- Bag label lines -->
-    <line x1="155" y1="159" x2="175" y2="159" stroke-width="1.5" opacity="0.5"/>
-    <line x1="155" y1="164" x2="175" y2="164" stroke-width="1.5" opacity="0.5"/>
+    <!-- Right shopping bag handle -->
+    <path d="M153 140 C153 128 177 128 177 140" fill="none" stroke="#7c3aed" stroke-width="3"/>
+    <!-- Right bag body (trapezoid) -->
+    <path d="M148 140 L182 140 L187 188 L143 188 Z" fill="#7c3aed" stroke-width="2"/>
+    <!-- Right bag shine -->
+    <path d="M152 148 L150 180" stroke="white" stroke-width="1.5" opacity="0.35"/>
+    <!-- Right bag label -->
+    <rect x="151" y="154" width="26" height="20" rx="3" fill="white" stroke="#1e2d3d" stroke-width="1.5"/>
+    <line x1="154" y1="161" x2="174" y2="161" stroke="#1e2d3d" stroke-width="1.5" opacity="0.5"/>
+    <line x1="154" y1="167" x2="174" y2="167" stroke="#1e2d3d" stroke-width="1.5" opacity="0.5"/>
   </g>
 </svg>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopmole.com";
-export const SITE_NAME = "ShopMole";
+export const SITE_NAME = "ShoppingMole";
 export const SITE_DESCRIPTION =
   "Compare prices across hundreds of stores instantly. Find the best deals on electronics, fashion, home goods, and more — with real reviews and price history.";
 

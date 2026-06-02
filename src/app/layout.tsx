@@ -43,6 +43,13 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} — Compare Prices Across Hundreds of Stores`,
     description: SITE_DESCRIPTION,
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/favicon.ico", sizes: "16x16" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
   robots: {
     index: true,
     follow: true,
@@ -149,7 +156,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                   <li><span className="text-slate-400">How it works</span></li>
                   <li><span className="text-slate-400">Price alerts</span></li>
                   <li><span className="text-slate-400">Browser extension</span></li>
-                  <li><a href="mailto:support@shopmole.com" className="hover:text-violet-600 transition-colors">support@shopmole.com</a></li>
+                  <li><a href="mailto:support@shoppingmole.com" className="hover:text-violet-600 transition-colors">support@shoppingmole.com</a></li>
                 </ul>
               </div>
               <div>
@@ -159,9 +166,27 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 </p>
               </div>
             </div>
-            <p className="mt-8 border-t border-slate-100 pt-6 text-center text-xs text-slate-400">
-              © {new Date().getFullYear()} {SITE_NAME}. All rights reserved. Prices and availability may vary.
-            </p>
+
+            {/* BurrowSoft family bar */}
+            <div className="mt-8 border-t border-slate-100 pt-6">
+              <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">🐾</span>
+                  <span className="text-sm font-semibold text-slate-700">BurrowSoft</span>
+                  <span className="text-xs text-slate-400">· A BurrowSoft product</span>
+                </div>
+                <nav aria-label="BurrowSoft products" className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-slate-400">
+                  <a href="https://flymole.com" className="hover:text-violet-600 transition-colors">FlyMole</a>
+                  <a href="https://bookingmole.com" className="hover:text-violet-600 transition-colors">BookingMole</a>
+                  <a href="https://insightmole.com" className="hover:text-violet-600 transition-colors">InsightMole</a>
+                  <a href="https://rentacarmole.com" className="hover:text-violet-600 transition-colors">RentACarMole</a>
+                  <a href="https://gamesmole.com" className="hover:text-violet-600 transition-colors">GamesMole</a>
+                </nav>
+              </div>
+              <p className="mt-4 text-center text-xs text-slate-400">
+                © 2025 BurrowSoft. All rights reserved. Prices and availability may vary.
+              </p>
+            </div>
           </div>
         </footer>
         <Analytics />
