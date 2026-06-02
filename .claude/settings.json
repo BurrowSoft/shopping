@@ -4,7 +4,10 @@
       "Read(//c/Users/VICTUS/Desktop/burrowsoft-web-apps/**)"
     ],
     "additionalDirectories": [
-      "C:\\Users\\VICTUS\\Desktop\\burrowsoft-web-apps\\shared\\src\\providers\\shopping"
+      "C:\\Users\\VICTUS\\Desktop\\burrowsoft-web-apps\\shared\\src\\providers\\shopping",
+      "C:\\Users\\VICTUS\\Desktop\\burrowsoft-web-apps\\shared\\src\\providers",
+      "C:\\Users\\VICTUS\\Desktop\\burrowsoft-web-apps\\shared\\src\\types",
+      "C:\\Users\\VICTUS\\Desktop\\burrowsoft-web-apps\\shared\\src\\ai"
     ]
   }
 }

@@ -74,11 +74,34 @@ export function ProductCard({ product }: ProductCardProps) {
             </p>
           )}
 
-          <p className="mt-1 text-xs text-slate-400 truncate">
-            via {product.source}
-          </p>
+          <div className="mt-2 flex items-center justify-between gap-1">
+            <p className="text-xs text-slate-400 truncate">via {product.source}</p>
+            <ProviderBadge provider={product.provider} />
+          </div>
         </div>
       </div>
     </Link>
+  );
+}
+
+function ProviderBadge({ provider }: { provider: string }) {
+  const label =
+    provider === "Google Shopping"
+      ? "G Shopping"
+      : provider === "Real-Time Product Search"
+      ? "Real-Time"
+      : provider || "Unknown";
+
+  const color =
+    provider === "Google Shopping"
+      ? "bg-blue-50 text-blue-600 border-blue-100"
+      : provider === "Real-Time Product Search"
+      ? "bg-emerald-50 text-emerald-600 border-emerald-100"
+      : "bg-slate-50 text-slate-500 border-slate-100";
+
+  return (
+    <span className={`shrink-0 rounded-full border px-1.5 py-0.5 text-[10px] font-medium ${color}`}>
+      {label}
+    </span>
   );
 }
