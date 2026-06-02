@@ -156,7 +156,7 @@ export function ProductResults({ products, query }: Props) {
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
               {sorted.map((product, idx) => (
                 <>
-                  <ProductCard key={product.id} product={product} />
+                  <ProductCard key={product.id} product={product} query={query} />
                   {idx === 7 && (
                     <div key="ad" className="col-span-2 sm:col-span-3 lg:col-span-4">
                       <AdUnit slot="SEARCH_MID_SLOT" format="horizontal" />

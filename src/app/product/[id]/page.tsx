@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { AdUnit } from "@/components/AdUnit";
 import { ProductImageGallery } from "@/components/ProductImageGallery";
 import { PriceCompareTable } from "@/components/PriceCompareTable";
@@ -18,7 +17,7 @@ import { createShoppingProvider, detectCountry } from "@burrowsoft/shared";
 
 interface Props {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ title?: string; q?: string }>;
+  searchParams: Promise<{ title?: string; q?: string; link?: string; source?: string }>;
 }
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
@@ -30,21 +29,55 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 
 export default async function ProductPage({ params, searchParams }: Props) {
   const { id } = await params;
-  const { title: titleParam, q: backQuery } = await searchParams;
+  const { title: titleParam, q: backQuery, link: fallbackLink, source: fallbackSource } =
+    await searchParams;
 
   const hdrs = await headers();
   const country = detectCountry(Object.fromEntries(hdrs.entries()));
   const currencyInfo = getCurrencyForCountry(country);
 
   const provider = createShoppingProvider();
-  if (!provider) notFound();
 
-  const product = await provider.getProductDetail(
-    decodeURIComponent(id),
-    currencyInfo.code
-  );
+  const product = provider
+    ? await provider.getProductDetail(decodeURIComponent(id), currencyInfo.code)
+    : null;
 
-  if (!product) notFound();
+  // Graceful fallback — no API product data but we have enough from URL params
+  if (!product) {
+    const title = titleParam ?? decodeURIComponent(id);
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-16 text-center">
+        <p className="text-5xl mb-6">🛍️</p>
+        <h1 className="text-2xl font-bold text-slate-900 mb-3 leading-snug">{title}</h1>
+        <p className="text-slate-500 mb-8 text-sm">
+          Detailed price comparison isn&apos;t available for this product right now.
+        </p>
+        {fallbackLink && (
+          <a
+            href={fallbackLink}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-6 py-3 text-base font-semibold text-white hover:bg-violet-700 transition-colors"
+          >
+            Buy on {fallbackSource || "Retailer"}
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        )}
+        {backQuery && (
+          <div className="mt-6">
+            <Link
+              href={`/search?q=${encodeURIComponent(backQuery)}`}
+              className="text-sm text-violet-600 hover:underline"
+            >
+              ← Back to results for &ldquo;{backQuery}&rdquo;
+            </Link>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   const lowestOffer = [...product.offers].sort(
     (a, b) => a.price.amount - b.price.amount

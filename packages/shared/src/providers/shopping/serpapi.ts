@@ -55,7 +55,7 @@ export class SerpApiShoppingProvider implements ShoppingProvider {
       const currency = params.currency;
 
       return {
-        id: String(r.product_id ?? r.position ?? ""),
+        id: String(r.product_id ?? ""),
         title: String(r.title ?? ""),
         thumbnail: String(r.thumbnail ?? ""),
         images: r.thumbnail ? [String(r.thumbnail)] : [],
