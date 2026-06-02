@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { Product } from "@burrowsoft/shared";
 import { StarRating } from "./StarRating";
 
@@ -8,7 +7,7 @@ interface ProductCardProps {
   query?: string;
 }
 
-export function ProductCard({ product, query }: ProductCardProps) {
+export function ProductCard({ product }: ProductCardProps) {
   const discount =
     product.originalPrice && product.originalPrice.amount > product.price.amount
       ? Math.round(
@@ -18,26 +17,15 @@ export function ProductCard({ product, query }: ProductCardProps) {
         )
       : null;
 
-  const offerLink = product.link || product.offers[0]?.link || "";
-
-  // Products without a Google product_id can't use the detail page — go straight to retailer
-  const hasDetailPage = product.id.length > 6;
-  const qs = new URLSearchParams({ title: product.title });
-  if (query) qs.set("q", query);
-  if (offerLink) qs.set("link", offerLink);
-  if (product.source) qs.set("source", product.source);
-  const href = hasDetailPage
-    ? `/product/${encodeURIComponent(product.id)}?${qs}`
-    : offerLink || "#";
-  const isExternal = !hasDetailPage && !!offerLink;
+  const href = product.link || product.offers[0]?.link || "#";
 
   return (
-    <Link
+    <a
       href={href}
-      target={isExternal ? "_blank" : undefined}
-      rel={isExternal ? "noopener noreferrer sponsored" : undefined}
+      target="_blank"
+      rel="noopener noreferrer sponsored"
       className="group flex flex-col rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-violet-500"
-      aria-label={product.title}
+      aria-label={`Buy ${product.title} on ${product.source}`}
     >
       {/* Image */}
       <div className="relative aspect-square overflow-hidden rounded-t-xl bg-slate-50">
@@ -96,7 +84,7 @@ export function ProductCard({ product, query }: ProductCardProps) {
           </div>
         </div>
       </div>
-    </Link>
+    </a>
   );
 }
 

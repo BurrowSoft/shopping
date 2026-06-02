@@ -42,7 +42,10 @@ export function SearchPageClient({ query, country, currency, providers }: Props)
         return res.json() as Promise<ApiResponse>;
       })
       .then((data) => {
-        setProducts(data.products ?? []);
+        const buyable = (data.products ?? []).filter(
+          (p) => p.link || p.offers[0]?.link
+        );
+        setProducts(buyable);
         setSummary(data.summary ?? null);
         setLoading(false);
       })
