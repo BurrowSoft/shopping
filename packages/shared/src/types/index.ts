@@ -105,11 +105,21 @@ export interface RentalCar {
 
 // ─── News ────────────────────────────────────────────────────────────────────
 
+export type NewsCategory =
+  | "general"
+  | "business"
+  | "technology"
+  | "sports"
+  | "entertainment"
+  | "health"
+  | "science";
+
 export interface NewsSearchParams {
   query?: string;
   country?: string;
   language?: string;
   pageSize?: number;
+  category?: NewsCategory;
 }
 
 export interface NewsArticle {
@@ -132,43 +142,4 @@ export interface AISummary {
   countryNote?: string;
 }
 
-// ─── Shopping ────────────────────────────────────────────────────────────────
-
-export interface ShoppingSearchParams {
-  query: string;
-  country: string;
-  currency: string;
-  minPrice?: number;
-  maxPrice?: number;
-  sortBy?: "relevance" | "price_low" | "price_high" | "review_score";
-}
-
-export interface ProductOffer {
-  retailer: string;
-  price: Price;
-  originalPrice?: Price;
-  link: string;
-  delivery?: string;
-  condition?: string;
-}
-
-export interface Product {
-  id: string;
-  title: string;
-  thumbnail: string;
-  images: string[];
-  rating?: number;
-  reviewCount?: number;
-  price: Price;
-  originalPrice?: Price;
-  offers: ProductOffer[];
-  description?: string;
-  category?: string;
-  highlights?: string[];
-  link: string;
-  source: string;
-  delivery?: string;
-  provider: string;
-}
-
-export type SearchDomain = "flights" | "hotels" | "cars" | "news" | "shopping";
+export type SearchDomain = "flights" | "hotels" | "cars" | "news";

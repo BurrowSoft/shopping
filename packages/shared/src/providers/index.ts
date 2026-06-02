@@ -5,4 +5,3 @@ export * from "./news";
 export * from "./hotels";
 export * from "./flights";
 export * from "./cars";
-export * from "./shopping";

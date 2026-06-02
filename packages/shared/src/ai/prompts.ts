@@ -10,7 +10,6 @@ export function buildSummaryPrompt(
     hotels: "hotel options",
     cars: "car rental options",
     news: "news articles",
-    shopping: "shopping products",
   };
 
   const label = domainLabel[domain];
