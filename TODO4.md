@@ -1,4 +1,4 @@
-# ShoppingMole — TODO4: Thailand/SEA Region-Specific APIs
+# ShoppingMole — TODO4: Region-Specific APIs (Thailand/SEA + Brazil)
 
 ## Permissions
 Ask the user to enable bypass permissions before starting: `claude --dangerously-skip-permissions`.
@@ -78,3 +78,49 @@ Product cards already use `offer.retailer` for button labels — ensure each `Pr
 ### 6. Sync packages/shared to other apps after changes
 After editing `packages/shared/src/providers/shopping/`, sync to: flight-booking, hotel-booking, news-feed, rent-a-car, main-website, games.
 **Important:** Do NOT overwrite `shopping/packages/shared/` from the root `shared/` — the shopping app's bundled copy is authoritative for this app.
+
+---
+
+## Brazil Region (country === "BR")
+
+### What the user needs to arrange
+
+| Platform | Registration | Notes |
+|---|---|---|
+| **Mercado Livre API** | https://developers.mercadolivre.com.br | **Free, public REST API — no approval needed.** Register app, get client credentials immediately. Best opportunity here. |
+| **Shopee Brasil Affiliate** | https://affiliate.shopee.com.br/open_api | Same Shopee Open API as Thailand but Brazilian endpoint. Apply separately. |
+| **Magalu Developer API** | https://developers.magalu.com/ | Partner-level, contact parceiros@magalu.com. Covers Magalu + Netshoes + Kabum under one auth. |
+
+New env vars for Vercel (shopping project):
+- `MERCADOLIVRE_APP_ID` + `MERCADOLIVRE_CLIENT_SECRET`
+- `MAGALU_API_KEY` (once partner access granted)
+- Shopee Brasil uses same `SHOPEE_PARTNER_KEY` if unified, or a separate Brazilian key
+
+### MercadoLivreProvider (implement first — easiest, free)
+File: `packages/shared/src/providers/shopping/mercadolivre.ts`
+
+Mercado Livre Product Search API:
+- Base URL: `https://api.mercadolibre.com`
+- Auth: OAuth 2.0 — get `access_token` via `POST /oauth/token` with client_credentials
+- Search: `GET /sites/MLB/search?q={query}&limit=20` (MLB = Brazil site ID)
+- Response fields: `title`, `price`, `currency_id`, `thumbnail`, `permalink`, `condition`, `seller.nickname`, `original_price`, `reviews.rating_average`, `reviews.total`
+- Normalize to `Product` DTO — price is already in BRL
+- Booking link = `permalink` (direct Mercado Livre product page)
+- No affiliate commission (this is a direct API, not affiliate) — revenue via AdSense
+- Gate on `country === "BR"` or `country === "AR"` (also works for Argentina, Mexico MX, etc.)
+
+### MagaluProvider
+File: `packages/shared/src/providers/shopping/magalu.ts`
+- Implement once partner credentials are obtained
+- Covers Magalu + Netshoes (sports) + Kabum (electronics) under one integration
+- Gate on `country === "BR"`
+
+### Country routing update
+Update `packages/shared/src/providers/shopping/index.ts`:
+```ts
+if (country === "BR" || country === "AR" || country === "MX" || country === "CO" || country === "CL") {
+  if (process.env.MERCADOLIVRE_APP_ID) providers.push(new MercadoLivreProvider(...));
+  if (process.env.MAGALU_API_KEY) providers.push(new MagaluProvider(...));
+  if (process.env.SHOPEE_PARTNER_KEY) providers.push(new ShopeeProvider(...)); // Shopee is growing in BR too
+}
+```
