@@ -10,8 +10,8 @@ import { SITE_NAME, SITE_DESCRIPTION, SITE_URL, websiteJsonLd } from "@/lib/seo"
 import { getCurrencyForCountry } from "@/lib/currency";
 import { CurrencyProvider } from "@/components/CurrencyProvider";
 import { SearchBar } from "@/components/SearchBar";
-import { LanguageSelector } from "@/components/LanguageSelector";
-import { detectCountry } from "@burrowsoft/shared";
+import { LazadaFloatingAd } from "@/components/LazadaFloatingAd";
+import { detectCountry, LanguageSelector } from "@burrowsoft/shared";
 import "./globals.css";
 
 const sarabun = Sarabun({
@@ -132,7 +132,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 <Link href="/search?q=best+deals+today" className="hover:text-violet-600 transition-colors">
                   {t("deals")}
                 </Link>
-                <LanguageSelector />
+                <LanguageSelector locales={["en", "th"]} />
               </div>
             </nav>
           </header>
@@ -205,6 +205,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               </div>
             </div>
           </footer>
+          {country === "TH" && <LazadaFloatingAd />}
         </NextIntlClientProvider>
         <Analytics />
       </body>

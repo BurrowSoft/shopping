@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { SearchBar } from "@/components/SearchBar";
 import { AdUnit } from "@/components/AdUnit";
 import { CATEGORIES, TRENDING_SEARCHES, FEATURES } from "@/lib/data";
@@ -18,7 +19,8 @@ const stats = [
   { value: "$0", label: "Always free" },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const t = await getTranslations("hero");
   return (
     <>
       {/* Hero */}
@@ -32,11 +34,10 @@ export default function HomePage() {
             id="hero-heading"
             className="mb-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl"
           >
-            Find the Best Price <br />
-            <span className="text-violet-200">on Anything, Instantly</span>
+            {t("title")}
           </h1>
           <p className="mb-10 text-lg text-violet-100 sm:text-xl">
-            Compare prices across Amazon, eBay, Walmart, Best Buy, and 500+ stores in one search.
+            {t("subtitle")}
           </p>
           <div className="mx-auto max-w-2xl">
             <SearchBar large />
@@ -44,7 +45,7 @@ export default function HomePage() {
 
           {/* Trending pills */}
           <div className="mt-6 flex flex-wrap justify-center gap-2">
-            <span className="text-sm text-violet-300 mr-1">Trending:</span>
+            <span className="text-sm text-violet-300 mr-1">{t("trending")}:</span>
             {TRENDING_SEARCHES.slice(0, 6).map((s) => (
               <Link
                 key={s}
