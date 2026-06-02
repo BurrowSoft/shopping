@@ -94,6 +94,10 @@ export interface RentalCar {
   category: string;
   model: string;
   seats: number;
+  doors?: number;
+  ac?: boolean;
+  largeLuggage?: number;
+  smallLuggage?: number;
   transmission: "automatic" | "manual";
   pricePerDay: Price;
   totalPrice: Price;

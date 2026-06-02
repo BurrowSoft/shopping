@@ -60,14 +60,13 @@ export class RealTimeProductSearchProvider implements ShoppingProvider {
       country: params.country.toLowerCase(),
       language: "en",
       limit: "20",
-      sort_by:
-        params.sortBy === "price_low"
-          ? "LOWEST_PRICE"
-          : params.sortBy === "price_high"
-          ? "HIGHEST_PRICE"
-          : params.sortBy === "review_score"
-          ? "TOP_RATED"
-          : "BEST_MATCH",
+      sort_by: params.sortBy === "price_low"
+        ? "LOWEST_PRICE"
+        : params.sortBy === "price_high"
+        ? "HIGHEST_PRICE"
+        : params.sortBy === "review_score"
+        ? "TOP_RATED"
+        : "BEST_MATCH",
     });
 
     if (params.minPrice !== undefined) qs.set("min_price", String(Math.round(params.minPrice)));
@@ -89,7 +88,7 @@ export class RealTimeProductSearchProvider implements ShoppingProvider {
 
     if (process.env.NODE_ENV !== "production" && data.data?.[0]) {
       console.log("[RealTimeProductSearch] first result keys:", Object.keys(data.data[0]));
-      console.log("[RealTimeProductSearch] sample:", JSON.stringify(data.data[0], null, 2).slice(0, 800));
+      console.log("[RealTimeProductSearch] first result sample:", JSON.stringify(data.data[0], null, 2).slice(0, 800));
     }
 
     const results = data.data ?? [];

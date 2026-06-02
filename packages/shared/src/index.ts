@@ -10,5 +10,5 @@ export * from "./ai";
 // Providers & routers
 export * from "./providers";
 
-// UI components
+// UI components (LanguageSelector, etc.)
 export * from "./components";
