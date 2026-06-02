@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@burrowsoft/shared": "file:../shared",
+    "@burrowsoft/shared": "*",
     "@burrowsoft/ui": "*",
     "@vercel/analytics": "^2.0.1",
     "next": "^15.1.0",
