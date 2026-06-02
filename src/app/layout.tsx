@@ -50,6 +50,7 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
+  other: { "google-adsense-account": "ca-pub-1009857008755875" },
   robots: {
     index: true,
     follow: true,
