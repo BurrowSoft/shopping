@@ -82,5 +82,25 @@ Every product card and the detail page must have labelled buttons per offer. Req
 - On the detail page price comparison table, each row has its own "Buy on [Retailer]" button
 - Cheapest offer gets a "Best price" badge
 
-### 10. AI summary
+### 10. Rename ShopMole → ShoppingMole
+Only one file needs changing: `src/lib/seo.ts` line 4. Change `SITE_NAME = "ShopMole"` to `SITE_NAME = "ShoppingMole"`. Verify no other files reference "ShopMole".
+
+### 11. Themed mascot — ShoppingMole
+Create `public/mascot.svg` — the base BurrowSoft Mole (white fill, dark navy #1e2d3d stroke, large round glasses, crown tuft, paws gripping ledge) with two shopping bags hanging from the mole's paws at each side. Bags should be trapezoid-shaped with curved handles. Same line-art style. SVG groups: `<g id="mole-base">` and `<g id="prop">`. ViewBox: `0 0 200 220`.
+
+### 12. App thumbnail / OG image
+- `public/og-image.png` — 1200×630px, ShoppingMole mascot centred on brand background, "ShoppingMole" wordmark below
+- `public/favicon.ico` — mole head only, 32×32 and 16×16
+- `public/apple-touch-icon.png` — 180×180px
+- Wire all into `src/app/layout.tsx` metadata
+
+### 13. Footer — BurrowSoft branding
+Add a footer bar to the app (or update the existing footer) with:
+- Small BurrowSoft logo (mole + "burrowsoft" wordmark) on the left
+- "A BurrowSoft product" or "Powered by BurrowSoft" text
+- Links to other BurrowSoft products (FlyMole, BookingMole, InsightMole, RentACarMole, GamesMole)
+- Copyright line: "© 2025 BurrowSoft. All rights reserved."
+The BurrowSoft logo SVG/PNG assets are in the `public/` folder of the main-website repo — copy the appropriate one here.
+
+### 14. AI summary
 Use `summarize()` from `@burrowsoft/shared` to generate a short buying guide blurb on the search results page (e.g. "Here are the top picks for X, with prices ranging from $Y to $Z").
