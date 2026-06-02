@@ -46,7 +46,7 @@ export default async function SearchPage({ searchParams }: Props) {
               </li>
             </ol>
           </nav>
-          <SearchBar defaultValue={query} large placeholder="Refine your search…" />
+          <SearchBar defaultValue={query} large />
         </div>
       </div>
 

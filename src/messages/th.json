@@ -1,0 +1,72 @@
+{
+  "nav": {
+    "home": "ShoppingMole",
+    "electronics": "อิเล็กทรอนิกส์",
+    "fashion": "แฟชั่น",
+    "deals": "ดีลพิเศษ"
+  },
+  "hero": {
+    "title": "เปรียบเทียบสินค้า ราคาดีที่สุด",
+    "subtitle": "ค้นหาจาก Google Shopping และร้านค้าชั้นนำกว่า 500 แห่งในครั้งเดียว",
+    "trending": "กำลังนิยม"
+  },
+  "search": {
+    "placeholder": "ค้นหาสินค้า…",
+    "placeholderShort": "ค้นหาสินค้า…",
+    "button": "ค้นหา",
+    "trending": "ค้นหายอดนิยม",
+    "clear": "ล้างการค้นหา",
+    "refine": "ปรับการค้นหา…"
+  },
+  "results": {
+    "found": "พบสินค้า {count} รายการ",
+    "foundSuffix": "· เปรียบเทียบราคาจากกว่า 500 ร้านค้า",
+    "noneFound": "ไม่พบสินค้าสำหรับ \"{query}\"",
+    "noneFoundTip": "ลองใช้คำค้นหาอื่น หรือตรวจสอบการสะกด",
+    "noFilters": "ไม่พบสินค้าที่ตรงกับตัวกรอง",
+    "noFiltersTip": "ลองปรับตัวกรองราคาหรือคะแนน",
+    "loading": "กำลังเปรียบเทียบราคาจากทุกร้านค้า…",
+    "loadingFrom": "กำลังโหลดจาก {provider}",
+    "unavailable": "{provider} ไม่พร้อมใช้งาน",
+    "error": "ไม่สามารถโหลดผลลัพธ์ได้ในขณะนี้",
+    "errorTip": "กรุณาลองใหม่อีกครั้ง",
+    "bestPrice": "ราคาดีที่สุด",
+    "buyOn": "ซื้อที่ {retailer}",
+    "priceComparison": "เปรียบเทียบราคา",
+    "storeCount": "{count} ร้านค้า",
+    "storeCountPlural": "{count} ร้านค้า",
+    "lowestPrice": "ราคาต่ำสุดที่พบ",
+    "at": "ที่",
+    "highlights": "จุดเด่น",
+    "description": "รายละเอียด",
+    "aboutProduct": "เกี่ยวกับสินค้านี้",
+    "backTo": "← กลับไปผลลัพธ์สำหรับ \"{query}\"",
+    "aiSummary": "ShoppingMole AI — คู่มือซื้อสินค้า",
+    "aiRecommendation": "💡 {text}",
+    "sortBy": "เรียงตาม:",
+    "sortRelevance": "เกี่ยวข้องมากที่สุด",
+    "sortPriceLow": "ราคา: ต่ำ → สูง",
+    "sortPriceHigh": "ราคา: สูง → ต่ำ",
+    "sortRating": "คะแนนดีที่สุด",
+    "maxPrice": "ราคาสูงสุด",
+    "minRating": "คะแนนขั้นต่ำ",
+    "hasReviews": "มีรีวิว",
+    "freeDelivery": "จัดส่งฟรี",
+    "viaSource": "จาก {source}",
+    "detailUnavailable": "ไม่สามารถแสดงการเปรียบเทียบราคาได้ในขณะนี้",
+    "result": "{count} รายการ",
+    "resultPlural": "{count} รายการ"
+  },
+  "footer": {
+    "tagline": "เปรียบเทียบราคาจาก Amazon, eBay, Walmart, Best Buy และกว่า 500 ร้านค้าทันที",
+    "burrowsoft": "ผลิตภัณฑ์ของ BurrowSoft",
+    "copyright": "© 2025 BurrowSoft. สงวนลิขสิทธิ์ ราคาและสินค้าอาจเปลี่ยนแปลงได้",
+    "popularCategories": "หมวดหมู่ยอดนิยม",
+    "topSearches": "ค้นหายอดนิยม",
+    "help": "ช่วยเหลือ",
+    "howItWorks": "วิธีการทำงาน",
+    "priceAlerts": "แจ้งเตือนราคา",
+    "browserExtension": "ส่วนขยายเบราว์เซอร์",
+    "support": "support@shoppingmole.com"
+  }
+}

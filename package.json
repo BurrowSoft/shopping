@@ -2,7 +2,9 @@
   "name": "@burrowsoft/shopping",
   "version": "0.0.1",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -15,6 +17,7 @@
     "@burrowsoft/ui": "*",
     "@vercel/analytics": "^2.0.1",
     "next": "^15.1.0",
+    "next-intl": "^4.13.0",
     "openai": "^4.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

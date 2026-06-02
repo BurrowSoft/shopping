@@ -39,7 +39,7 @@ export default function HomePage() {
             Compare prices across Amazon, eBay, Walmart, Best Buy, and 500+ stores in one search.
           </p>
           <div className="mx-auto max-w-2xl">
-            <SearchBar large placeholder="Search for any product…" />
+            <SearchBar large />
           </div>
 
           {/* Trending pills */}

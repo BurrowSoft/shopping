@@ -1,0 +1,72 @@
+{
+  "nav": {
+    "home": "ShoppingMole",
+    "electronics": "Electronics",
+    "fashion": "Fashion",
+    "deals": "Deals"
+  },
+  "hero": {
+    "title": "Find the Best Price on Anything, Instantly",
+    "subtitle": "Compare prices across Amazon, eBay, Walmart, Best Buy, and 500+ stores in one search.",
+    "trending": "Trending"
+  },
+  "search": {
+    "placeholder": "Search for any product…",
+    "placeholderShort": "Search any product…",
+    "button": "Search",
+    "trending": "Trending searches",
+    "clear": "Clear search",
+    "refine": "Refine your search…"
+  },
+  "results": {
+    "found": "{count} products found",
+    "foundSuffix": "· Prices compared across 500+ stores",
+    "noneFound": "No results found for \"{query}\"",
+    "noneFoundTip": "Try a different search term or check for typos.",
+    "noFilters": "No products match your filters",
+    "noFiltersTip": "Try adjusting the price or rating filters",
+    "loading": "Comparing prices across stores…",
+    "loadingFrom": "Loading from {provider}",
+    "unavailable": "{provider} unavailable",
+    "error": "Unable to load results right now",
+    "errorTip": "Please try again in a moment.",
+    "bestPrice": "Best price",
+    "buyOn": "Buy on {retailer}",
+    "priceComparison": "Price Comparison",
+    "storeCount": "{count} store",
+    "storeCountPlural": "{count} stores",
+    "lowestPrice": "Lowest price found",
+    "at": "at",
+    "highlights": "Highlights",
+    "description": "Description",
+    "aboutProduct": "About this product",
+    "backTo": "← Back to results for \"{query}\"",
+    "aiSummary": "ShoppingMole AI — Buying Guide",
+    "aiRecommendation": "💡 {text}",
+    "sortBy": "Sort:",
+    "sortRelevance": "Best Match",
+    "sortPriceLow": "Price: Low → High",
+    "sortPriceHigh": "Price: High → Low",
+    "sortRating": "Best Rated",
+    "maxPrice": "Max price",
+    "minRating": "Min rating",
+    "hasReviews": "Has reviews",
+    "freeDelivery": "Free delivery",
+    "viaSource": "via {source}",
+    "detailUnavailable": "Detailed price comparison isn't available for this product right now.",
+    "result": "{count} result",
+    "resultPlural": "{count} results"
+  },
+  "footer": {
+    "tagline": "Compare prices across Amazon, eBay, Walmart, Best Buy and 500+ stores instantly.",
+    "burrowsoft": "A BurrowSoft product",
+    "copyright": "© 2025 BurrowSoft. All rights reserved. Prices and availability may vary.",
+    "popularCategories": "Popular Categories",
+    "topSearches": "Top Searches",
+    "help": "Help",
+    "howItWorks": "How it works",
+    "priceAlerts": "Price alerts",
+    "browserExtension": "Browser extension",
+    "support": "support@shoppingmole.com"
+  }
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import type { Product } from "@burrowsoft/shared";
 import { ProductCard } from "./ProductCard";
 import { AdUnit } from "./AdUnit";
@@ -13,6 +14,7 @@ interface Props {
 type SortOption = "relevance" | "price_low" | "price_high" | "review_score";
 
 export function ProductResults({ products, query }: Props) {
+  const t = useTranslations("results");
   const [sort, setSort] = useState<SortOption>("relevance");
   const [maxPrice, setMaxPrice] = useState<number>(Infinity);
   const [minRating, setMinRating] = useState(0);
@@ -23,7 +25,6 @@ export function ProductResults({ products, query }: Props) {
     () => Math.max(...products.map((p) => p.price.amount), 100),
     [products]
   );
-
   const priceSliderMax = Math.ceil(maxAvailable / 10) * 10;
 
   const filtered = useMemo(() => {
@@ -47,13 +48,20 @@ export function ProductResults({ products, query }: Props) {
     });
   }, [filtered, sort]);
 
+  const sortOptions: [SortOption, string][] = [
+    ["relevance", t("sortRelevance")],
+    ["price_low", t("sortPriceLow")],
+    ["price_high", t("sortPriceHigh")],
+    ["review_score", t("sortRating")],
+  ];
+
   return (
     <div className="flex flex-col gap-6 lg:flex-row">
       {/* Sidebar */}
       <aside className="w-full lg:w-60 shrink-0">
         <div className="rounded-xl border border-slate-200 bg-white p-5 space-y-6">
           <div>
-            <h3 className="mb-3 text-sm font-semibold text-slate-700">Max price</h3>
+            <h3 className="mb-3 text-sm font-semibold text-slate-700">{t("maxPrice")}</h3>
             <input
               type="range"
               min={0}
@@ -75,7 +83,7 @@ export function ProductResults({ products, query }: Props) {
           </div>
 
           <div>
-            <h3 className="mb-3 text-sm font-semibold text-slate-700">Min rating</h3>
+            <h3 className="mb-3 text-sm font-semibold text-slate-700">{t("minRating")}</h3>
             <div className="space-y-2">
               {[4.5, 4, 3.5, 3].map((r) => (
                 <label key={r} className="flex items-center gap-2 cursor-pointer">
@@ -101,7 +109,7 @@ export function ProductResults({ products, query }: Props) {
                 onChange={(e) => setWithReviewsOnly(e.target.checked)}
                 className="accent-violet-600"
               />
-              Has reviews
+              {t("hasReviews")}
             </label>
             <label className="flex items-center gap-2 cursor-pointer text-sm text-slate-600">
               <input
@@ -110,7 +118,7 @@ export function ProductResults({ products, query }: Props) {
                 onChange={(e) => setFreeDeliveryOnly(e.target.checked)}
                 className="accent-violet-600"
               />
-              Free delivery
+              {t("freeDelivery")}
             </label>
           </div>
         </div>
@@ -118,17 +126,9 @@ export function ProductResults({ products, query }: Props) {
 
       {/* Main */}
       <div className="flex-1 min-w-0">
-        {/* Sort bar */}
         <div className="mb-4 flex flex-wrap items-center gap-2">
-          <span className="text-sm font-medium text-slate-500">Sort:</span>
-          {(
-            [
-              ["relevance", "Best Match"],
-              ["price_low", "Price: Low → High"],
-              ["price_high", "Price: High → Low"],
-              ["review_score", "Best Rated"],
-            ] as [SortOption, string][]
-          ).map(([value, label]) => (
+          <span className="text-sm font-medium text-slate-500">{t("sortBy")}</span>
+          {sortOptions.map(([value, label]) => (
             <button
               key={value}
               onClick={() => setSort(value)}
@@ -142,14 +142,14 @@ export function ProductResults({ products, query }: Props) {
             </button>
           ))}
           <span className="ml-auto text-sm text-slate-400">
-            {filtered.length} result{filtered.length !== 1 ? "s" : ""}
+            {filtered.length === 1 ? t("result", { count: filtered.length }) : t("resultPlural", { count: filtered.length })}
           </span>
         </div>
 
         {sorted.length === 0 ? (
           <div className="rounded-xl border border-dashed border-slate-200 py-20 text-center">
-            <p className="text-lg font-medium text-slate-400">No products match your filters</p>
-            <p className="mt-2 text-sm text-slate-400">Try adjusting the price or rating filters</p>
+            <p className="text-lg font-medium text-slate-400">{t("noFilters")}</p>
+            <p className="mt-2 text-sm text-slate-400">{t("noFiltersTip")}</p>
           </div>
         ) : (
           <>
@@ -165,9 +165,6 @@ export function ProductResults({ products, query }: Props) {
                 </>
               ))}
             </div>
-            <p className="mt-8 text-center text-xs text-slate-400">
-              Showing {sorted.length} results for &ldquo;{query}&rdquo; · Prices updated in real-time
-            </p>
           </>
         )}
       </div>

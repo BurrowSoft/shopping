@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import type { Product } from "@burrowsoft/shared";
 import { StarRating } from "./StarRating";
 
@@ -8,6 +11,8 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const t = useTranslations("results");
+
   const discount =
     product.originalPrice && product.originalPrice.amount > product.price.amount
       ? Math.round(
@@ -25,9 +30,8 @@ export function ProductCard({ product }: ProductCardProps) {
       target="_blank"
       rel="noopener noreferrer sponsored"
       className="group flex flex-col rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-violet-500"
-      aria-label={`Buy ${product.title} on ${product.source}`}
+      aria-label={t("buyOn", { retailer: product.source })}
     >
-      {/* Image */}
       <div className="relative aspect-square overflow-hidden rounded-t-xl bg-slate-50">
         {product.thumbnail ? (
           <Image
@@ -50,7 +54,6 @@ export function ProductCard({ product }: ProductCardProps) {
         )}
       </div>
 
-      {/* Info */}
       <div className="flex flex-1 flex-col gap-2 p-4">
         <p className="line-clamp-2 text-sm font-medium text-slate-800 group-hover:text-violet-700 transition-colors leading-snug">
           {product.title}
@@ -79,7 +82,9 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
 
           <div className="mt-2 flex items-center justify-between gap-1">
-            <p className="text-xs text-slate-400 truncate">via {product.source}</p>
+            <p className="text-xs text-slate-400 truncate">
+              {t("viaSource", { source: product.source })}
+            </p>
             <ProviderBadge provider={product.provider} />
           </div>
         </div>

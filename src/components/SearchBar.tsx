@@ -2,19 +2,16 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { TRENDING_SEARCHES } from "@/lib/data";
 
 interface SearchBarProps {
   defaultValue?: string;
   large?: boolean;
-  placeholder?: string;
 }
 
-export function SearchBar({
-  defaultValue = "",
-  large = false,
-  placeholder = "Search for any product…",
-}: SearchBarProps) {
+export function SearchBar({ defaultValue = "", large = false }: SearchBarProps) {
+  const t = useTranslations("search");
   const router = useRouter();
   const [query, setQuery] = useState(defaultValue);
   const [focused, setFocused] = useState(false);
@@ -25,7 +22,7 @@ export function SearchBar({
     (s) => query.length > 0 && s.toLowerCase().includes(query.toLowerCase())
   ).slice(0, 6);
 
-  const showDropdown = focused && (suggestions.length > 0 || (query.length === 0 && focused));
+  const showDropdown = focused && (suggestions.length > 0 || query.length === 0);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -43,6 +40,8 @@ export function SearchBar({
     setFocused(false);
     router.push(`/search?q=${encodeURIComponent(trimmed)}`);
   }
+
+  const placeholder = large ? t("placeholder") : t("placeholderShort");
 
   return (
     <div ref={containerRef} className="relative w-full">
@@ -79,18 +78,15 @@ export function SearchBar({
           className={`flex-1 bg-transparent outline-none placeholder-slate-400 text-slate-900 ${
             large ? "text-lg" : "text-base"
           }`}
-          aria-label="Search for products"
+          aria-label={t("placeholder")}
           autoComplete="off"
         />
         {query && (
           <button
             type="button"
-            onClick={() => {
-              setQuery("");
-              inputRef.current?.focus();
-            }}
+            onClick={() => { setQuery(""); inputRef.current?.focus(); }}
             className="shrink-0 text-slate-400 hover:text-slate-600"
-            aria-label="Clear search"
+            aria-label={t("clear")}
           >
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -103,7 +99,7 @@ export function SearchBar({
             large ? "px-6 py-2.5 text-base" : "px-4 py-2 text-sm"
           }`}
         >
-          Search
+          {t("button")}
         </button>
       </form>
 
@@ -112,7 +108,7 @@ export function SearchBar({
           {query.length === 0 ? (
             <>
               <p className="px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">
-                Trending searches
+                {t("trending")}
               </p>
               {TRENDING_SEARCHES.slice(0, 8).map((s) => (
                 <button
