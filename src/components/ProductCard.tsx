@@ -10,6 +10,8 @@ interface ProductCardProps {
   query?: string;
 }
 
+const CARD_BASE = "group flex flex-col rounded-xl border border-slate-200 bg-white shadow-sm";
+
 export function ProductCard({ product }: ProductCardProps) {
   const t = useTranslations("results");
 
@@ -22,16 +24,11 @@ export function ProductCard({ product }: ProductCardProps) {
         )
       : null;
 
-  const href = product.link || product.offers[0]?.link || "";
+  const rawLink = product.link || product.offers[0]?.link || "";
+  const isExternal = rawLink.startsWith("http");
 
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer sponsored"
-      className="group flex flex-col rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-violet-500"
-      aria-label={t("buyOn", { retailer: product.source })}
-    >
+  const inner = (
+    <>
       <div className="relative aspect-square overflow-hidden rounded-t-xl bg-slate-50">
         {product.thumbnail ? (
           <Image
@@ -74,13 +71,9 @@ export function ProductCard({ product }: ProductCardProps) {
               </span>
             )}
           </div>
-
           {product.delivery && (
-            <p className="mt-0.5 text-xs text-green-600 font-medium">
-              {product.delivery}
-            </p>
+            <p className="mt-0.5 text-xs text-green-600 font-medium">{product.delivery}</p>
           )}
-
           <div className="mt-2 flex items-center justify-between gap-1">
             <p className="text-xs text-slate-400 truncate">
               {t("viaSource", { source: product.source })}
@@ -89,7 +82,28 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
         </div>
       </div>
-    </a>
+    </>
+  );
+
+  if (isExternal) {
+    return (
+      <a
+        href={rawLink}
+        target="_blank"
+        rel="noopener noreferrer sponsored"
+        className={`${CARD_BASE} hover:shadow-md hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-violet-500`}
+        aria-label={t("buyOn", { retailer: product.source })}
+      >
+        {inner}
+      </a>
+    );
+  }
+
+  // No valid external link — show the card but don't navigate
+  return (
+    <div className={CARD_BASE}>
+      {inner}
+    </div>
   );
 }
 

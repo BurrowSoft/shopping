@@ -39,11 +39,7 @@ export function SearchPageClient({ query, country, currency, providers }: Props)
         return res.json() as Promise<ApiResponse>;
       })
       .then((data) => {
-        const linked = (data.products ?? []).filter((p) => {
-          const link = p.link || p.offers[0]?.link || "";
-          return link.startsWith("http");
-        });
-        setProducts(linked);
+        setProducts(data.products ?? []);
         setSummary(data.summary ?? null);
         setLoading(false);
       })
