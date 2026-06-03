@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopmole.com";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.shoppingmole.com";
 export const SITE_NAME = "ShoppingMole";
 export const SITE_DESCRIPTION =
   "Compare prices across hundreds of stores instantly. Find the best deals on electronics, fashion, home goods, and more — with real reviews and price history.";
@@ -31,15 +31,15 @@ export function websiteJsonLd() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: SITE_NAME,
-    url: SITE_URL,
-    description: SITE_DESCRIPTION,
+    url: "https://www.shoppingmole.com",
+    description: "Compare prices and find the best deals from top online stores.",
     potentialAction: {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+        urlTemplate: "https://www.shoppingmole.com/search?q={search_term}",
       },
-      "query-input": "required name=search_term_string",
+      "query-input": "required name=search_term",
     },
   };
 }
