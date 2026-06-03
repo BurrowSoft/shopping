@@ -96,6 +96,9 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
+  verification: {
+    google: "ZUD6hhvx3bUNKNxgTn77303ZxBB-F4U3_Y0knlguQdI",
+  },
   other: { "google-adsense-account": "ca-pub-1009857008755875" },
   robots: {
     index: true,
