@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { SearchBar } from "@/components/SearchBar";
 import { SearchPageClient } from "@/components/SearchPageClient";
 import { AdUnit } from "@/components/AdUnit";
@@ -30,15 +30,12 @@ export default async function SearchPage({ searchParams }: Props) {
 
   return (
     <>
-      {/* Search header */}
       <div className="bg-gradient-to-br from-violet-700 via-violet-600 to-purple-600 py-8">
         <div className="mx-auto max-w-4xl px-4">
           <nav aria-label="Breadcrumb" className="mb-4">
             <ol className="flex items-center gap-2 text-sm text-violet-200">
               <li>
-                <Link href="/" className="hover:text-white transition-colors">
-                  Home
-                </Link>
+                <Link href="/" className="hover:text-white transition-colors">Home</Link>
               </li>
               <li aria-hidden>/</li>
               <li className="text-white font-medium truncate max-w-xs">
@@ -56,7 +53,6 @@ export default async function SearchPage({ searchParams }: Props) {
             Results for &ldquo;{query}&rdquo;
           </h1>
         )}
-
         <SearchPageClient
           query={query}
           country={country}
@@ -75,16 +71,13 @@ export default async function SearchPage({ searchParams }: Props) {
             Buying guide for &ldquo;{query}&rdquo;
           </h2>
           <p className="text-sm text-slate-500 leading-relaxed">
-            {SITE_NAME} searches live prices across Amazon, eBay, Walmart, Best Buy, and 500+
-            other retailers for &ldquo;{query}&rdquo;. Prices are updated every 5 minutes.
-            Always compare total cost including shipping before purchasing. Click any product to
-            see full price history, reviews, and all available retailers.
+            {SITE_NAME} searches live prices across Amazon, eBay, Walmart, Best Buy, and 500+ other
+            retailers for &ldquo;{query}&rdquo;. Prices are updated every 5 minutes. Always compare
+            total cost including shipping before purchasing.
           </p>
           <p className="mt-3 text-xs text-slate-400">
             Results powered by Google Shopping · Affiliate links may earn {SITE_NAME} a commission ·{" "}
-            <Link href={SITE_URL} className="hover:text-violet-500">
-              {SITE_URL}
-            </Link>
+            <a href={SITE_URL} className="hover:text-violet-500">{SITE_URL}</a>
           </p>
         </section>
       )}

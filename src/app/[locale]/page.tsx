@@ -1,16 +1,26 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { SearchBar } from "@/components/SearchBar";
 import { AdUnit } from "@/components/AdUnit";
 import { CATEGORIES, TRENDING_SEARCHES, FEATURES } from "@/lib/data";
-import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/seo";
+import { SITE_NAME, SITE_DESCRIPTION } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `${SITE_NAME} — Compare Prices Across Hundreds of Stores`,
-  description: SITE_DESCRIPTION,
-  alternates: { canonical: SITE_URL },
-};
+const BASE = "https://www.shoppingmole.com";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const canonical = locale === "en" ? `${BASE}/` : `${BASE}/${locale}/`;
+  return {
+    title: `${SITE_NAME} — Compare Prices Across Hundreds of Stores`,
+    description: SITE_DESCRIPTION,
+    alternates: { canonical },
+  };
+}
 
 const stats = [
   { value: "500+", label: "Stores compared" },
@@ -23,7 +33,6 @@ export default async function HomePage() {
   const t = await getTranslations("hero");
   return (
     <>
-      {/* Hero */}
       <section
         className="relative overflow-hidden bg-gradient-to-br from-violet-700 via-violet-600 to-purple-600 pb-24 pt-16"
         aria-labelledby="hero-heading"
@@ -36,14 +45,10 @@ export default async function HomePage() {
           >
             {t("title")}
           </h1>
-          <p className="mb-10 text-lg text-violet-100 sm:text-xl">
-            {t("subtitle")}
-          </p>
+          <p className="mb-10 text-lg text-violet-100 sm:text-xl">{t("subtitle")}</p>
           <div className="mx-auto max-w-2xl">
             <SearchBar large />
           </div>
-
-          {/* Trending pills */}
           <div className="mt-6 flex flex-wrap justify-center gap-2">
             <span className="text-sm text-violet-300 mr-1">{t("trending")}:</span>
             {TRENDING_SEARCHES.slice(0, 6).map((s) => (
@@ -59,7 +64,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Stats */}
       <section className="border-b border-slate-200 bg-white" aria-label="Platform statistics">
         <div className="mx-auto max-w-5xl px-4 py-8">
           <dl className="grid grid-cols-2 gap-6 sm:grid-cols-4">
@@ -73,14 +77,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Categories */}
       <section className="mx-auto max-w-7xl px-4 py-14" aria-labelledby="categories-heading">
-        <h2 id="categories-heading" className="mb-2 text-2xl font-bold text-slate-900">
-          Browse by Category
-        </h2>
-        <p className="mb-8 text-slate-500">
-          Find the best prices across all product categories.
-        </p>
+        <h2 id="categories-heading" className="mb-2 text-2xl font-bold text-slate-900">Browse by Category</h2>
+        <p className="mb-8 text-slate-500">Find the best prices across all product categories.</p>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
           {CATEGORIES.map((cat) => (
             <Link
@@ -96,20 +95,14 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Ad */}
       <div className="mx-auto max-w-5xl px-4 py-2">
         <AdUnit slot="HOME_BANNER_SLOT" format="horizontal" />
       </div>
 
-      {/* Features */}
       <section className="bg-white py-14" aria-labelledby="features-heading">
         <div className="mx-auto max-w-7xl px-4">
-          <h2 id="features-heading" className="mb-2 text-center text-2xl font-bold text-slate-900">
-            Why {SITE_NAME}?
-          </h2>
-          <p className="mb-10 text-center text-slate-500">
-            The smarter way to shop online — always find the lowest price.
-          </p>
+          <h2 id="features-heading" className="mb-2 text-center text-2xl font-bold text-slate-900">Why {SITE_NAME}?</h2>
+          <p className="mb-10 text-center text-slate-500">The smarter way to shop online — always find the lowest price.</p>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {FEATURES.map((f) => (
               <div key={f.title} className="rounded-xl border border-slate-100 bg-slate-50 p-5">
@@ -122,11 +115,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Trending searches */}
       <section className="mx-auto max-w-7xl px-4 py-14" aria-labelledby="trending-heading">
-        <h2 id="trending-heading" className="mb-6 text-xl font-bold text-slate-900">
-          Trending Searches
-        </h2>
+        <h2 id="trending-heading" className="mb-6 text-xl font-bold text-slate-900">Trending Searches</h2>
         <div className="flex flex-wrap gap-3">
           {TRENDING_SEARCHES.map((s) => (
             <Link
@@ -140,40 +130,24 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* SEO content */}
       <section className="mx-auto max-w-4xl px-4 py-14" aria-labelledby="seo-content-heading">
-        <h2 id="seo-content-heading" className="mb-4 text-xl font-bold text-slate-900">
-          How to Find the Best Price Online
-        </h2>
+        <h2 id="seo-content-heading" className="mb-4 text-xl font-bold text-slate-900">How to Find the Best Price Online</h2>
         <div className="prose prose-slate max-w-none text-sm text-slate-600 leading-relaxed space-y-3">
           <p>
             {SITE_NAME} is a free shopping search engine that compares prices across hundreds of
             online stores in real time. Whether you&apos;re buying{" "}
-            <Link href="/search?q=smartphone+best+price" className="text-violet-600 hover:underline">
-              smartphones
-            </Link>
-            ,{" "}
-            <Link href="/search?q=laptop+deals" className="text-violet-600 hover:underline">
-              laptops
-            </Link>
-            , or{" "}
-            <Link href="/search?q=home+garden+deals" className="text-violet-600 hover:underline">
-              home appliances
-            </Link>
-            , we instantly surface the lowest price across Amazon, eBay, Walmart, Best Buy, and
-            500+ other retailers.
+            <Link href="/search?q=smartphone+best+price" className="text-violet-600 hover:underline">smartphones</Link>,{" "}
+            <Link href="/search?q=laptop+deals" className="text-violet-600 hover:underline">laptops</Link>, or{" "}
+            <Link href="/search?q=home+garden+deals" className="text-violet-600 hover:underline">home appliances</Link>,
+            we instantly surface the lowest price across Amazon, eBay, Walmart, Best Buy, and 500+ other retailers.
           </p>
           <p>
             Price comparison shopping can save you 20–40% on everyday purchases. Our engine updates
-            prices every 5 minutes, so you always see current deals — never outdated data. We also
-            show delivery costs, free shipping eligibility, and product ratings so you can make
-            truly informed buying decisions.
+            prices every 5 minutes, so you always see current deals — never outdated data.
           </p>
           <p>
             To get the best deal, search for the exact product name or model number. You can filter
-            results by price range, star rating, and delivery options. Click any result to see a
-            full price breakdown across all available retailers, complete with user reviews and
-            product specifications.
+            results by price range, star rating, and delivery options.
           </p>
         </div>
       </section>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { AdUnit } from "@/components/AdUnit";
 import { ProductImageGallery } from "@/components/ProductImageGallery";
 import { PriceCompareTable } from "@/components/PriceCompareTable";
@@ -16,7 +16,7 @@ import { getCurrencyForCountry } from "@/lib/currency";
 import { createShoppingProvider, detectCountry } from "@burrowsoft/shared";
 
 interface Props {
-  params: Promise<{ id: string }>;
+  params: Promise<{ locale: string; id: string }>;
   searchParams: Promise<{ title?: string; q?: string; link?: string; source?: string }>;
 }
 
@@ -42,7 +42,6 @@ export default async function ProductPage({ params, searchParams }: Props) {
     ? await provider.getProductDetail(decodeURIComponent(id), currencyInfo.code)
     : null;
 
-  // Graceful fallback — no API product data but we have enough from URL params
   if (!product) {
     const title = titleParam ?? decodeURIComponent(id);
     return (
@@ -67,10 +66,7 @@ export default async function ProductPage({ params, searchParams }: Props) {
         )}
         {backQuery && (
           <div className="mt-6">
-            <Link
-              href={`/search?q=${encodeURIComponent(backQuery)}`}
-              className="text-sm text-violet-600 hover:underline"
-            >
+            <Link href={`/search?q=${encodeURIComponent(backQuery)}`} className="text-sm text-violet-600 hover:underline">
               ← Back to results for &ldquo;{backQuery}&rdquo;
             </Link>
           </div>
@@ -79,55 +75,33 @@ export default async function ProductPage({ params, searchParams }: Props) {
     );
   }
 
-  const lowestOffer = [...product.offers].sort(
-    (a, b) => a.price.amount - b.price.amount
-  )[0];
+  const lowestOffer = [...product.offers].sort((a, b) => a.price.amount - b.price.amount)[0];
 
   const breadcrumb = breadcrumbJsonLd([
     { name: "Home", url: SITE_URL },
-    ...(backQuery
-      ? [{ name: `"${backQuery}"`, url: `${SITE_URL}/search?q=${encodeURIComponent(backQuery)}` }]
-      : []),
+    ...(backQuery ? [{ name: `"${backQuery}"`, url: `${SITE_URL}/search?q=${encodeURIComponent(backQuery)}` }] : []),
     { name: product.title, url: `${SITE_URL}/product/${id}` },
   ]);
 
   const productLd = productJsonLd(
-    product.title,
-    product.price.amount,
-    currencyInfo.code,
-    product.rating,
-    product.reviewCount,
-    product.thumbnail || undefined
+    product.title, product.price.amount, currencyInfo.code,
+    product.rating, product.reviewCount, product.thumbnail || undefined
   );
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
 
       <div className="mx-auto max-w-7xl px-4 py-8">
-        {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="mb-6">
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-400">
-            <li>
-              <Link href="/" className="hover:text-violet-600 transition-colors">
-                Home
-              </Link>
-            </li>
+            <li><Link href="/" className="hover:text-violet-600 transition-colors">Home</Link></li>
             <li aria-hidden>/</li>
             {backQuery && (
               <>
                 <li>
-                  <Link
-                    href={`/search?q=${encodeURIComponent(backQuery)}`}
-                    className="hover:text-violet-600 transition-colors"
-                  >
+                  <Link href={`/search?q=${encodeURIComponent(backQuery)}`} className="hover:text-violet-600 transition-colors">
                     &ldquo;{backQuery}&rdquo;
                   </Link>
                 </li>
@@ -139,38 +113,22 @@ export default async function ProductPage({ params, searchParams }: Props) {
         </nav>
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
-          {/* Left: image gallery */}
-          <div>
-            <ProductImageGallery images={product.images} title={product.title} />
-          </div>
-
-          {/* Right: product info */}
+          <div><ProductImageGallery images={product.images} title={product.title} /></div>
           <div className="flex flex-col gap-5">
             <div>
-              <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-violet-500">
-                {product.source}
-              </p>
-              <h1 className="text-2xl font-bold text-slate-900 leading-snug">
-                {product.title}
-              </h1>
+              <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-violet-500">{product.source}</p>
+              <h1 className="text-2xl font-bold text-slate-900 leading-snug">{product.title}</h1>
             </div>
-
             {product.rating !== undefined && (
               <StarRating rating={product.rating} reviewCount={product.reviewCount} />
             )}
-
-            {/* Price summary */}
             <div className="rounded-xl bg-violet-50 border border-violet-100 px-5 py-4">
               <p className="text-xs text-violet-500 mb-1">Lowest price found</p>
               <p className="text-4xl font-extrabold text-violet-700">
                 {lowestOffer?.price.formatted ?? product.price.formatted}
               </p>
-              {lowestOffer && (
-                <p className="mt-1 text-sm text-slate-500">at {lowestOffer.retailer}</p>
-              )}
-              {lowestOffer?.delivery && (
-                <p className="mt-1 text-xs font-medium text-green-600">{lowestOffer.delivery}</p>
-              )}
+              {lowestOffer && <p className="mt-1 text-sm text-slate-500">at {lowestOffer.retailer}</p>}
+              {lowestOffer?.delivery && <p className="mt-1 text-xs font-medium text-green-600">{lowestOffer.delivery}</p>}
               {lowestOffer && (
                 <a
                   href={lowestOffer.link}
@@ -185,23 +143,18 @@ export default async function ProductPage({ params, searchParams }: Props) {
                 </a>
               )}
             </div>
-
-            {/* Highlights */}
             {product.highlights && product.highlights.length > 0 && (
               <div>
                 <h2 className="mb-2 text-sm font-semibold text-slate-700">Highlights</h2>
                 <ul className="space-y-1">
                   {product.highlights.map((h, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
-                      <span className="mt-0.5 text-violet-400">✓</span>
-                      {h}
+                      <span className="mt-0.5 text-violet-400">✓</span>{h}
                     </li>
                   ))}
                 </ul>
               </div>
             )}
-
-            {/* Description */}
             {product.description && (
               <div>
                 <h2 className="mb-2 text-sm font-semibold text-slate-700">Description</h2>
@@ -211,34 +164,20 @@ export default async function ProductPage({ params, searchParams }: Props) {
           </div>
         </div>
 
-        {/* Price comparison table */}
         {product.offers.length > 0 && (
-          <div className="mt-10">
-            <PriceCompareTable offers={product.offers} />
-          </div>
+          <div className="mt-10"><PriceCompareTable offers={product.offers} /></div>
         )}
+        <div className="mt-8"><AdUnit slot="PRODUCT_BANNER_SLOT" format="horizontal" /></div>
 
-        <div className="mt-8">
-          <AdUnit slot="PRODUCT_BANNER_SLOT" format="horizontal" />
-        </div>
-
-        {/* SEO content */}
         <section className="mt-10 rounded-xl border border-slate-100 bg-white p-6">
-          <h2 className="mb-3 text-base font-semibold text-slate-700">
-            About this product
-          </h2>
+          <h2 className="mb-3 text-base font-semibold text-slate-700">About this product</h2>
           <p className="text-sm text-slate-500 leading-relaxed">
             {SITE_NAME} found {product.offers.length} store{product.offers.length !== 1 ? "s" : ""}{" "}
             selling &ldquo;{product.title}&rdquo;. The lowest price is{" "}
-            <strong>{lowestOffer?.price.formatted ?? product.price.formatted}</strong>. Compare all
-            offers above and click &ldquo;Buy&rdquo; to be taken directly to the retailer&apos;s
-            checkout page. Prices and availability are updated in real time.
+            <strong>{lowestOffer?.price.formatted ?? product.price.formatted}</strong>.
           </p>
           {backQuery && (
-            <Link
-              href={`/search?q=${encodeURIComponent(backQuery)}`}
-              className="mt-3 inline-block text-sm text-violet-600 hover:underline"
-            >
+            <Link href={`/search?q=${encodeURIComponent(backQuery)}`} className="mt-3 inline-block text-sm text-violet-600 hover:underline">
               ← Back to results for &ldquo;{backQuery}&rdquo;
             </Link>
           )}

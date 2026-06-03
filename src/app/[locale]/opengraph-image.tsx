@@ -21,36 +21,13 @@ export default function OgImage() {
         }}
       >
         <div style={{ fontSize: 110, marginBottom: 24 }}>🛍️</div>
-        <div
-          style={{
-            fontSize: 72,
-            fontWeight: 900,
-            color: "white",
-            letterSpacing: "-2px",
-            marginBottom: 16,
-          }}
-        >
+        <div style={{ fontSize: 72, fontWeight: 900, color: "white", letterSpacing: "-2px", marginBottom: 16 }}>
           ShoppingMole
         </div>
-        <div
-          style={{
-            fontSize: 30,
-            color: "rgba(255,255,255,0.8)",
-            maxWidth: 700,
-            textAlign: "center",
-            lineHeight: 1.4,
-          }}
-        >
+        <div style={{ fontSize: 30, color: "rgba(255,255,255,0.8)", maxWidth: 700, textAlign: "center", lineHeight: 1.4 }}>
           Compare prices across 500+ stores instantly
         </div>
-        <div
-          style={{
-            marginTop: 40,
-            fontSize: 22,
-            color: "rgba(255,255,255,0.55)",
-            letterSpacing: "1px",
-          }}
-        >
+        <div style={{ marginTop: 40, fontSize: 22, color: "rgba(255,255,255,0.55)", letterSpacing: "1px" }}>
           shoppingmole.com
         </div>
       </div>

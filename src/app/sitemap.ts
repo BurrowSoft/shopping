@@ -1,15 +1,34 @@
 import type { MetadataRoute } from "next";
-import { SITE_URL } from "@/lib/seo";
+import { routing } from "@/i18n/routing";
 import { CATEGORIES } from "@/lib/data";
 
+const BASE = "https://www.shoppingmole.com";
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    { url: SITE_URL, lastModified: new Date(), changeFrequency: "daily", priority: 1 },
-    ...CATEGORIES.map((c) => ({
-      url: `${SITE_URL}/search?q=${encodeURIComponent(c.query)}`,
+  const staticRoutes = ["/"];
+  const entries: MetadataRoute.Sitemap = [];
+
+  for (const route of staticRoutes) {
+    for (const locale of routing.locales) {
+      const prefix = locale === "en" ? "" : `/${locale}`;
+      entries.push({
+        url: `${BASE}${prefix}${route}`,
+        lastModified: new Date(),
+        changeFrequency: "daily",
+        priority: 1.0,
+      });
+    }
+  }
+
+  // Category search pages (English only — locale versions indexed via hreflang)
+  for (const cat of CATEGORIES) {
+    entries.push({
+      url: `${BASE}/search?q=${encodeURIComponent(cat.query)}`,
       lastModified: new Date(),
-      changeFrequency: "daily" as const,
+      changeFrequency: "daily",
       priority: 0.8,
-    })),
-  ];
+    });
+  }
+
+  return entries;
 }
