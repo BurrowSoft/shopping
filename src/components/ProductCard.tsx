@@ -25,7 +25,7 @@ export function ProductCard({ product }: ProductCardProps) {
       : null;
 
   const rawLink = product.link || product.offers[0]?.link || "";
-  const isExternal = rawLink.startsWith("http");
+  const isExternal = rawLink.length > 0 && rawLink !== "#";
 
   const inner = (
     <>

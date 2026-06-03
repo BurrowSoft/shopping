@@ -72,11 +72,11 @@ export class SerpApiShoppingProvider implements ShoppingProvider {
             originalPrice: rawOldPrice
               ? makePrice(rawOldPrice, currency, r.old_price as string | undefined)
               : undefined,
-            link: String(r.link ?? ""),
+            link: String(r.link ?? r.product_link ?? r.url ?? ""),
             delivery: r.delivery as string | undefined,
           },
         ],
-        link: String(r.link ?? ""),
+        link: String(r.link ?? r.product_link ?? r.url ?? ""),
         source: String(r.source ?? ""),
         delivery: r.delivery as string | undefined,
         provider: this.name,
