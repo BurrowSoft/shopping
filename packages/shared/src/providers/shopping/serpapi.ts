@@ -49,14 +49,31 @@ export class SerpApiShoppingProvider implements ShoppingProvider {
     const data = (await res.json()) as Record<string, unknown>;
     const results = ((data.shopping_results as Record<string, unknown>[]) ?? []);
 
+    // Log first result once per cache fill so we can inspect real field names in Vercel logs
+    if (results[0]) {
+      const first = results[0];
+      console.log("[SerpAPI] first result keys:", Object.keys(first).join(", "));
+      console.log("[SerpAPI] link candidates:", JSON.stringify({
+        link: first.link, product_link: first.product_link, url: first.url,
+        serpapi_link: first.serpapi_link, buying_link: first.buying_link,
+      }));
+    }
+
     return results.slice(0, 24).map((r) => {
       const rawPrice = (r.extracted_price as number | undefined) ?? 0;
       const rawOldPrice = r.extracted_old_price as number | undefined;
       const currency = params.currency;
+      const title = String(r.title ?? "");
+      const source = String(r.source ?? "");
+
+      // Try every known link field; fall back to a Google Shopping search so cards are always clickable
+      const directLink = String(r.link ?? r.product_link ?? r.url ?? r.buying_link ?? "");
+      const retailerLink = directLink ||
+        `https://www.google.com/search?q=${encodeURIComponent(`${title} ${source}`.trim())}&tbm=shop`;
 
       return {
         id: String(r.product_id ?? r.position ?? ""),
-        title: String(r.title ?? ""),
+        title,
         thumbnail: String(r.thumbnail ?? ""),
         images: r.thumbnail ? [String(r.thumbnail)] : [],
         rating: r.rating as number | undefined,
@@ -67,17 +84,17 @@ export class SerpApiShoppingProvider implements ShoppingProvider {
           : undefined,
         offers: [
           {
-            retailer: String(r.source ?? ""),
+            retailer: source,
             price: makePrice(rawPrice, currency, r.price as string | undefined),
             originalPrice: rawOldPrice
               ? makePrice(rawOldPrice, currency, r.old_price as string | undefined)
               : undefined,
-            link: String(r.link ?? r.product_link ?? r.url ?? ""),
+            link: retailerLink,
             delivery: r.delivery as string | undefined,
           },
         ],
-        link: String(r.link ?? r.product_link ?? r.url ?? ""),
-        source: String(r.source ?? ""),
+        link: retailerLink,
+        source,
         delivery: r.delivery as string | undefined,
         provider: this.name,
       } satisfies Product;
