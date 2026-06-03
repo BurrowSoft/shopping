@@ -22,7 +22,7 @@ export function ProductCard({ product }: ProductCardProps) {
         )
       : null;
 
-  const href = product.link || product.offers[0]?.link || "#";
+  const href = product.link || product.offers[0]?.link || "";
 
   return (
     <a
