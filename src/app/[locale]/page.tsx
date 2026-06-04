@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { SearchBar } from "@/components/SearchBar";
 import { AdUnit } from "@/components/AdUnit";
 import { LazadaDealsBanner } from "@/components/LazadaDealsBanner";
+import { ShopeeDealsSection } from "@/components/ShopeeDealsSection";
 import { CATEGORIES, TRENDING_SEARCHES, FEATURES } from "@/lib/data";
 import { SITE_NAME, SITE_DESCRIPTION } from "@/lib/seo";
 import { detectCountry } from "@burrowsoft/shared";
@@ -83,6 +84,7 @@ export default async function HomePage() {
       </section>
 
       {isThai && <LazadaDealsBanner />}
+      {isThai && <ShopeeDealsSection />}
 
       <section className="mx-auto max-w-7xl px-4 py-14" aria-labelledby="categories-heading">
         <h2 id="categories-heading" className="mb-2 text-2xl font-bold text-slate-900">Browse by Category</h2>

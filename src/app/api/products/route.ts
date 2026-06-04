@@ -13,22 +13,77 @@ interface ProductsResponse {
   summary: AISummary | null;
 }
 
+/** True if the string contains at least one Thai character. */
+function hasThai(s: string): boolean {
+  return /[฀-๿]/.test(s);
+}
+
+/**
+ * Translate a short query to Thai using OpenAI.
+ * Returns null if the key is missing or the call fails.
+ */
+async function translateToThai(query: string): Promise<string | null> {
+  const key = process.env.OPENAI_API_KEY;
+  if (!key) return null;
+  try {
+    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content:
+              "Translate the product search query to Thai. Reply with ONLY the Thai translation, nothing else.",
+          },
+          { role: "user", content: query },
+        ],
+        max_tokens: 60,
+        temperature: 0,
+      }),
+    });
+    if (!res.ok) return null;
+    const json = await res.json() as { choices: Array<{ message: { content: string } }> };
+    return json.choices[0]?.message?.content?.trim() ?? null;
+  } catch {
+    return null;
+  }
+}
+
 function makeCachedSearch(query: string, country: string, currency: string) {
   return unstable_cache(
-    async (): Promise<ProductsResponse> => {
+    async (): Promise<Product[]> => {
       const router = createShoppingRouter();
-      const products = await router.search({ query, country, currency }, country);
-      const summary = await summarize("shopping", products, country);
-      return { products, summary };
+      return router.search({ query, country, currency }, country);
     },
     [`products:${query}:${country}`],
     { revalidate: 300 }
   );
 }
 
+/** Merge two product arrays, deduplicated by title+source. */
+function mergeProducts(a: Product[], b: Product[]): Product[] {
+  const seen = new Set(a.map((p) => `${p.title.toLowerCase()}|${p.source.toLowerCase()}`));
+  const unique = b.filter((p) => {
+    const key = `${p.title.toLowerCase()}|${p.source.toLowerCase()}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  // Interleave: one from b for every two from a so Thai results surface early
+  const merged: Product[] = [];
+  let ai = 0, bi = 0;
+  while (ai < a.length || bi < unique.length) {
+    if (ai < a.length) merged.push(a[ai++]);
+    if (ai < a.length) merged.push(a[ai++]);
+    if (bi < unique.length) merged.push(unique[bi++]);
+  }
+  return merged;
+}
+
 /** Replace Lazada + Shopee links with affiliate tracking links for Thai users. */
 async function applyThaiAffiliateLinks(products: Product[]): Promise<Product[]> {
-  // Shopee: synchronous URL rewrite (no API needed)
   const withShopee = products.map((p) => ({
     ...p,
     link: isShopeeThUrl(p.link) ? buildShopeeAffiliateUrl(p.link) : p.link,
@@ -38,7 +93,6 @@ async function applyThaiAffiliateLinks(products: Product[]): Promise<Product[]> 
     })),
   }));
 
-  // Lazada: requires API call to get tracking links
   const lazadaUrls = withShopee
     .flatMap((p) => [p.link, p.offers[0]?.link ?? ""])
     .filter((url) => url && isLazadaThUrl(url));
@@ -69,17 +123,33 @@ export async function GET(request: Request) {
   }
 
   try {
-    const search = makeCachedSearch(q, country, currency);
-    const result = await search();
+    let products: Product[];
 
-    // For Thai users: apply affiliate links to all results (client handles display filtering)
-    // For international users: return all results (client filters out Thai-specific platforms)
-    const products =
+    if (country === "TH" && !hasThai(q)) {
+      // Dual search: run English query + Thai translation in parallel
+      const [thaiQuery, englishResults] = await Promise.all([
+        translateToThai(q),
+        makeCachedSearch(q, country, currency)(),
+      ]);
+
+      if (thaiQuery) {
+        const thaiResults = await makeCachedSearch(thaiQuery, country, currency)();
+        products = mergeProducts(englishResults, thaiResults);
+      } else {
+        products = englishResults;
+      }
+    } else {
+      products = await makeCachedSearch(q, country, currency)();
+    }
+
+    const summary = await summarize("shopping", products, country);
+
+    const finalProducts =
       country === "TH"
-        ? await applyThaiAffiliateLinks(result.products)
-        : result.products;
+        ? await applyThaiAffiliateLinks(products)
+        : products;
 
-    return Response.json({ products, summary: result.summary });
+    return Response.json({ products: finalProducts, summary });
   } catch {
     return Response.json({ products: [], summary: null }, { status: 500 });
   }
