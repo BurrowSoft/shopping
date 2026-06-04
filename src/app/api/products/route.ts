@@ -26,20 +26,6 @@ function makeCachedSearch(query: string, country: string, currency: string) {
   );
 }
 
-/** Keep only Lazada and Shopee products for Thai users. */
-function filterThaiProducts(products: Product[]): Product[] {
-  return products.filter((p) => {
-    const link = p.link || p.offers[0]?.link || "";
-    const source = p.source.toLowerCase();
-    return (
-      link.includes("lazada.co.th") ||
-      link.includes("shopee.co.th") ||
-      source.includes("lazada") ||
-      source.includes("shopee")
-    );
-  });
-}
-
 /** Replace Lazada + Shopee links with affiliate tracking links for Thai users. */
 async function applyThaiAffiliateLinks(products: Product[]): Promise<Product[]> {
   // Shopee: synchronous URL rewrite (no API needed)
@@ -86,10 +72,11 @@ export async function GET(request: Request) {
     const search = makeCachedSearch(q, country, currency);
     const result = await search();
 
-    // For Thai users: show only Lazada + Shopee, with affiliate links applied
+    // For Thai users: apply affiliate links to all results (client handles display filtering)
+    // For international users: return all results (client filters out Thai-specific platforms)
     const products =
       country === "TH"
-        ? await applyThaiAffiliateLinks(filterThaiProducts(result.products))
+        ? await applyThaiAffiliateLinks(result.products)
         : result.products;
 
     return Response.json({ products, summary: result.summary });

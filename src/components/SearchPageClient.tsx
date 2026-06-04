@@ -112,7 +112,7 @@ export function SearchPageClient({ query, country, currency, providers }: Props)
           <p className="mb-6 text-sm text-slate-500">
             {t("found", { count: products.length })} {t("foundSuffix")}
           </p>
-          <ProductResults products={products} query={query} />
+          <ProductResults products={products} query={query} country={country} />
         </>
       )}
     </>

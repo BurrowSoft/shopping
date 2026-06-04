@@ -6,18 +6,34 @@ import type { Product } from "@burrowsoft/shared";
 import { ProductCard } from "./ProductCard";
 import { AdUnit } from "./AdUnit";
 
+const THAI_PLATFORMS = ["lazada.co.th", "shopee.co.th"];
+
+function isThaiPlatform(p: Product) {
+  const link = p.link || p.offers[0]?.link || "";
+  const src = p.source.toLowerCase();
+  return (
+    THAI_PLATFORMS.some((d) => link.includes(d)) ||
+    src.includes("lazada") ||
+    src.includes("shopee")
+  );
+}
+
 interface Props {
   products: Product[];
   query: string;
+  country?: string;
 }
 
 type SortOption = "relevance" | "price_low" | "price_high" | "review_score";
 
-export function ProductResults({ products, query }: Props) {
+export function ProductResults({ products, query, country }: Props) {
   const t = useTranslations("results");
+  const isThai = country === "TH";
   const [sort, setSort] = useState<SortOption>("relevance");
   const [maxPrice, setMaxPrice] = useState<number>(Infinity);
   const [minRating, setMinRating] = useState(0);
+  // TH: unchecked = show only Lazada+Shopee; checked = show all
+  const [includeIntl, setIncludeIntl] = useState(false);
   const [withReviewsOnly, setWithReviewsOnly] = useState(false);
   const [freeDeliveryOnly, setFreeDeliveryOnly] = useState(false);
 
@@ -33,9 +49,13 @@ export function ProductResults({ products, query }: Props) {
       if (minRating > 0 && (p.rating ?? 0) < minRating) return false;
       if (withReviewsOnly && !p.reviewCount) return false;
       if (freeDeliveryOnly && !p.delivery?.toLowerCase().includes("free")) return false;
+      // TH users: unchecked = only Lazada+Shopee; checked = all
+      if (isThai && !includeIntl && !isThaiPlatform(p)) return false;
+      // Intl users: filter out Lazada+Shopee
+      if (!isThai && isThaiPlatform(p)) return false;
       return true;
     });
-  }, [products, maxPrice, minRating, withReviewsOnly, freeDeliveryOnly]);
+  }, [products, maxPrice, minRating, withReviewsOnly, freeDeliveryOnly, isThai, includeIntl]);
 
   const sorted = useMemo(() => {
     return [...filtered].sort((a, b) => {
@@ -120,6 +140,17 @@ export function ProductResults({ products, query }: Props) {
               />
               {t("freeDelivery")}
             </label>
+            {isThai && (
+              <label className="flex items-center gap-2 cursor-pointer text-sm text-slate-600">
+                <input
+                  type="checkbox"
+                  checked={includeIntl}
+                  onChange={(e) => setIncludeIntl(e.target.checked)}
+                  className="accent-violet-600"
+                />
+                {t("includeInternational")}
+              </label>
+            )}
           </div>
         </div>
       </aside>

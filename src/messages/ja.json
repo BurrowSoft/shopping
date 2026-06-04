@@ -50,7 +50,8 @@
     "viaSource": "{source}経由",
     "detailUnavailable": "この商品の詳細な価格比較は現在利用できません。",
     "result": "{count}件",
-    "resultPlural": "{count}件"
+    "resultPlural": "{count}件",
+    "includeInternational": "海外ストアを含める"
   },
   "footer": {
     "tagline": "Amazon、eBay、Walmart、Best Buyほか500以上のショップを即時比較。",

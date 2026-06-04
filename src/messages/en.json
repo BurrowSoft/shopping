@@ -55,7 +55,8 @@
     "viaSource": "via {source}",
     "detailUnavailable": "Detailed price comparison isn't available for this product right now.",
     "result": "{count} result",
-    "resultPlural": "{count} results"
+    "resultPlural": "{count} results",
+    "includeInternational": "Include international stores"
   },
   "footer": {
     "tagline": "Compare prices across Amazon, eBay, Walmart, Best Buy and 500+ stores instantly.",

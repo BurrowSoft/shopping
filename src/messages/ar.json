@@ -50,7 +50,8 @@
     "viaSource": "عبر {source}",
     "detailUnavailable": "مقارنة الأسعار التفصيلية غير متاحة لهذا المنتج الآن.",
     "result": "{count} نتيجة",
-    "resultPlural": "{count} نتائج"
+    "resultPlural": "{count} نتائج",
+    "includeInternational": "تضمين المتاجر الدولية"
   },
   "footer": {
     "tagline": "قارن الأسعار عبر Amazon وeBay وWalmart وBest Buy وأكثر من 500 متجر فورًا.",

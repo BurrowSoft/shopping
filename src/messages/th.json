@@ -55,7 +55,8 @@
     "viaSource": "จาก {source}",
     "detailUnavailable": "ไม่สามารถแสดงการเปรียบเทียบราคาได้ในขณะนี้",
     "result": "{count} รายการ",
-    "resultPlural": "{count} รายการ"
+    "resultPlural": "{count} รายการ",
+    "includeInternational": "รวมร้านค้าต่างประเทศ"
   },
   "footer": {
     "tagline": "เปรียบเทียบราคาจาก Amazon, eBay, Walmart, Best Buy และกว่า 500 ร้านค้าทันที",

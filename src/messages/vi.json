@@ -50,7 +50,8 @@
     "viaSource": "qua {source}",
     "detailUnavailable": "So sánh giá chi tiết hiện không có sẵn cho sản phẩm này.",
     "result": "{count} kết quả",
-    "resultPlural": "{count} kết quả"
+    "resultPlural": "{count} kết quả",
+    "includeInternational": "Bao gồm cửa hàng quốc tế"
   },
   "footer": {
     "tagline": "So sánh giá trên Amazon, eBay, Walmart, Best Buy và hơn 500 cửa hàng ngay lập tức.",

@@ -50,7 +50,8 @@
     "viaSource": "來自 {source}",
     "detailUnavailable": "此商品的詳細價格比較暫時不可用。",
     "result": "{count} 個結果",
-    "resultPlural": "{count} 個結果"
+    "resultPlural": "{count} 個結果",
+    "includeInternational": "包含國際商店"
   },
   "footer": {
     "tagline": "即刻比較亞馬遜、eBay、Walmart、Best Buy及500+家商店的價格。",
