@@ -85,25 +85,27 @@ export function isLazadaThUrl(url: string): boolean {
 // ─── Shopee Thailand ────────────────────────────────────────────────────────
 
 /**
- * Appends Shopee affiliate tracking params to a shopee.co.th URL.
- * Uses the stable mmp_pid publisher ID — no API call required.
- * Falls back to the original URL if SHOPEE_MMP_PID is not set.
+ * Wraps a shopee.co.th URL in Shopee's official affiliate redirect format:
+ *   https://s.shopee.co.th/an_redir?origin_link={encoded_url}&affiliate_id={id}
+ *
+ * Shopee injects uls_trackid and utm_term automatically on redirect — proper
+ * commission attribution with no API call needed.
+ *
+ * Env: SHOPEE_AFFILIATE_ID (numeric, e.g. 15128610001 — strip the "an_" prefix)
  */
 export function buildShopeeAffiliateUrl(url: string): string {
-  const mmpPid = process.env.SHOPEE_MMP_PID;
-  if (!mmpPid || !url.includes("shopee.co.th")) return url;
+  const affiliateId = process.env.SHOPEE_AFFILIATE_ID;
+  if (!affiliateId || !url.includes("shopee.co.th")) return url;
 
   try {
+    // Strip any existing tracking params before wrapping
     const parsed = new URL(url);
-    // Remove any existing session-specific tracking params first
-    ["uls_trackid", "gads_t_sig", "utm_term", "__mobile__"].forEach((p) =>
+    ["uls_trackid", "gads_t_sig", "utm_term", "utm_source", "utm_medium",
+     "utm_campaign", "utm_content", "mmp_pid", "__mobile__"].forEach((p) =>
       parsed.searchParams.delete(p)
     );
-    // Set stable affiliate params
-    parsed.searchParams.set("mmp_pid", mmpPid);
-    parsed.searchParams.set("utm_source", mmpPid);
-    parsed.searchParams.set("utm_medium", "affiliates");
-    return parsed.toString();
+    const encoded = encodeURIComponent(parsed.toString());
+    return `https://s.shopee.co.th/an_redir?origin_link=${encoded}&affiliate_id=${affiliateId}`;
   } catch {
     return url;
   }
