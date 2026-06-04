@@ -13,9 +13,35 @@ interface ProductsResponse {
   summary: AISummary | null;
 }
 
-/** True if the string contains at least one Thai character. */
+/** True if the string contains at least one Thai character (U+0E00–U+0E7F). */
 function hasThai(s: string): boolean {
   return /[฀-๿]/.test(s);
+}
+
+// Quick static dictionary for the most common shopping searches.
+// Checked before calling OpenAI — instant, free, no latency.
+const THAI_DICT: Record<string, string> = {
+  makeup: "เครื่องสำอาง", "make-up": "เครื่องสำอาง", cosmetics: "เครื่องสำอาง",
+  lipstick: "ลิปสติก", foundation: "รองพื้น", mascara: "มาสคาร่า",
+  skincare: "สกินแคร์", moisturizer: "มอยส์เจอร์ไรเซอร์", sunscreen: "ครีมกันแดด",
+  serum: "เซรั่ม", toner: "โทนเนอร์", cleanser: "คลีนเซอร์",
+  phone: "โทรศัพท์", smartphone: "สมาร์ทโฟน", iphone: "ไอโฟน",
+  laptop: "แล็ปท็อป", notebook: "โน้ตบุ๊ก", tablet: "แท็บเล็ต",
+  headphone: "หูฟัง", earphone: "หูฟัง", earbuds: "อีร์บัดส์",
+  watch: "นาฬิกา", shoes: "รองเท้า", sneakers: "รองเท้าผ้าใบ",
+  bag: "กระเป๋า", handbag: "กระเป๋าถือ", backpack: "เป้สะพายหลัง",
+  shirt: "เสื้อเชิ้ต", dress: "ชุดเดรส", jeans: "กางเกงยีนส์",
+  camera: "กล้อง", tv: "ทีวี", television: "โทรทัศน์",
+  refrigerator: "ตู้เย็น", "air conditioner": "แอร์", fan: "พัดลม",
+  supplement: "อาหารเสริม", vitamin: "วิตามิน", protein: "โปรตีน",
+  gaming: "เกมมิ่ง", keyboard: "คีย์บอร์ด", mouse: "เมาส์",
+  perfume: "น้ำหอม", hair: "ผม", shampoo: "แชมพู",
+  toy: "ของเล่น", book: "หนังสือ", furniture: "เฟอร์นิเจอร์",
+};
+
+function dictLookup(query: string): string | null {
+  const q = query.toLowerCase().trim();
+  return THAI_DICT[q] ?? null;
 }
 
 /**
@@ -126,9 +152,12 @@ export async function GET(request: Request) {
     let products: Product[];
 
     if (country === "TH" && !hasThai(q)) {
-      // Dual search: run English query + Thai translation in parallel
+      // 1. Check static dictionary first (instant, no API cost)
+      // 2. Fall back to OpenAI translation if not found
+      // Both run in parallel with the English query
+      const dictResult = dictLookup(q);
       const [thaiQuery, englishResults] = await Promise.all([
-        translateToThai(q),
+        dictResult ? Promise.resolve(dictResult) : translateToThai(q),
         makeCachedSearch(q, country, currency)(),
       ]);
 
