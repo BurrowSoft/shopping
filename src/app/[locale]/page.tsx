@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { SearchBar } from "@/components/SearchBar";
 import { AdUnit } from "@/components/AdUnit";
+import { LazadaDealsBanner } from "@/components/LazadaDealsBanner";
 import { CATEGORIES, TRENDING_SEARCHES, FEATURES } from "@/lib/data";
 import { SITE_NAME, SITE_DESCRIPTION } from "@/lib/seo";
+import { detectCountry } from "@burrowsoft/shared";
 
 const BASE = "https://www.shoppingmole.com";
 
@@ -31,6 +34,8 @@ const stats = [
 
 export default async function HomePage() {
   const t = await getTranslations("hero");
+  const country = detectCountry(await headers());
+  const isThai = country === "TH";
   return (
     <>
       <section
@@ -76,6 +81,8 @@ export default async function HomePage() {
           </dl>
         </div>
       </section>
+
+      {isThai && <LazadaDealsBanner />}
 
       <section className="mx-auto max-w-7xl px-4 py-14" aria-labelledby="categories-heading">
         <h2 id="categories-heading" className="mb-2 text-2xl font-bold text-slate-900">Browse by Category</h2>
