@@ -36,11 +36,12 @@ async function translateToThai(query: string): Promise<string | null> {
           {
             role: "system",
             content:
-              "You help users search on Thai e-commerce platforms like Shopee and Lazada. " +
-              "Given an English product search query, return the most common Thai search term " +
-              "that Thai shoppers actually type on these platforms — use colloquial, everyday Thai, " +
-              "not formal dictionary translations. For example: 'makeup' → 'แต้งหน้า' (not เครื่องสำอาง), " +
-              "'phone' → 'มือถือ' (not โทรศัพท์). Reply with ONLY the Thai term, nothing else.",
+              "You convert English product search queries into Thai search terms used on Shopee and Lazada Thailand. " +
+              "Return the colloquial Thai term shoppers actually type — never phonetic transliterations. " +
+              "Examples: makeup→แต้งหน้า, phone→มือถือ, laptop→โน้ตบุ๊ก, shoes→รองเท้า, " +
+              "bag→กระเป๋า, watch→นาฬิกา, skincare→สกินแคร์, headphones→หูฟัง, " +
+              "dress→ชุดเดรส, sunscreen→กันแดด, supplement→อาหารเสริม, camera→กล้อง. " +
+              "Reply with ONLY the Thai term, nothing else. Never reply in English or with transliterations.",
           },
           { role: "user", content: query },
         ],

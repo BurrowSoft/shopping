@@ -65,22 +65,10 @@ export default async function SearchPage({ searchParams }: Props) {
         <AdUnit slot="SEARCH_BOTTOM_SLOT" format="horizontal" />
       </div>
 
-      {query && (
-        <section className="mx-auto max-w-4xl px-4 py-10">
-          <h2 className="mb-3 text-base font-semibold text-slate-700">
-            Buying guide for &ldquo;{query}&rdquo;
-          </h2>
-          <p className="text-sm text-slate-500 leading-relaxed">
-            {SITE_NAME} searches live prices across Amazon, eBay, Walmart, Best Buy, and 500+ other
-            retailers for &ldquo;{query}&rdquo;. Prices are updated every 5 minutes. Always compare
-            total cost including shipping before purchasing.
-          </p>
-          <p className="mt-3 text-xs text-slate-400">
-            Results powered by Google Shopping · Affiliate links may earn {SITE_NAME} a commission ·{" "}
-            <a href={SITE_URL} className="hover:text-violet-500">{SITE_URL}</a>
-          </p>
-        </section>
-      )}
+      <p className="mx-auto max-w-4xl px-4 pb-8 text-xs text-slate-400 text-center">
+        Results powered by Google Shopping · Affiliate links may earn {SITE_NAME} a commission ·{" "}
+        <a href={SITE_URL} className="hover:text-violet-500">{SITE_URL}</a>
+      </p>
     </>
   );
 }

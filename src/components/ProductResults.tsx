@@ -140,17 +140,6 @@ export function ProductResults({ products, query, country }: Props) {
               />
               {t("freeDelivery")}
             </label>
-            {isThai && (
-              <label className="flex items-center gap-2 cursor-pointer text-sm text-slate-600">
-                <input
-                  type="checkbox"
-                  checked={includeIntl}
-                  onChange={(e) => setIncludeIntl(e.target.checked)}
-                  className="accent-violet-600"
-                />
-                {t("includeInternational")}
-              </label>
-            )}
           </div>
         </div>
       </aside>
@@ -176,6 +165,30 @@ export function ProductResults({ products, query, country }: Props) {
             {filtered.length === 1 ? t("result", { count: filtered.length }) : t("resultPlural", { count: filtered.length })}
           </span>
         </div>
+
+        {isThai && (
+          <label className={`mb-4 flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition-colors ${
+            includeIntl
+              ? "border-slate-200 bg-slate-50 text-slate-600"
+              : "border-orange-200 bg-orange-50 text-orange-800"
+          }`}>
+            <input
+              type="checkbox"
+              checked={includeIntl}
+              onChange={(e) => setIncludeIntl(e.target.checked)}
+              className="h-4 w-4 accent-orange-500"
+            />
+            <span className="text-sm font-medium">
+              {includeIntl ? "🌏 " : "🛒 "}
+              {t("includeInternational")}
+            </span>
+            {!includeIntl && (
+              <span className="ml-auto text-xs text-orange-500 font-medium">
+                Lazada · Shopee
+              </span>
+            )}
+          </label>
+        )}
 
         {sorted.length === 0 ? (
           <div className="rounded-xl border border-dashed border-slate-200 py-20 text-center">
