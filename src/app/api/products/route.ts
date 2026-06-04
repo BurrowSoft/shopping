@@ -18,58 +18,9 @@ function hasThai(s: string): boolean {
   return /[฀-๿]/.test(s);
 }
 
-// Colloquial Thai terms that Shopee/Lazada sellers actually use in listings.
-// Prioritise what shoppers type, not dictionary-correct translations.
-const THAI_DICT: Record<string, string> = {
-  // Beauty — sellers use แต้งหน้า not เครื่องสำอาง
-  makeup: "แต้งหน้า", "make-up": "แต้งหน้า",
-  cosmetics: "เครื่องสำอาง", beauty: "ความงาม",
-  lipstick: "ลิปสติก", "lip gloss": "ลิปกลอส", "lip tint": "ลิปทินต์",
-  foundation: "รองพื้น", "bb cream": "บีบีครีม", concealer: "คอนซีลเลอร์",
-  mascara: "มาสคาร่า", eyeliner: "อายไลเนอร์", eyeshadow: "อายแชโดว์",
-  blush: "บลัชออน", highlighter: "ไฮไลท์เตอร์", contour: "คอนทัวร์",
-  // Skincare — loanwords dominate on Shopee
-  skincare: "สกินแคร์", moisturizer: "มอยส์เจอร์ไรเซอร์",
-  sunscreen: "กันแดด", "sun cream": "กันแดด",
-  serum: "เซรั่ม", toner: "โทนเนอร์", cleanser: "คลีนเซอร์",
-  "face wash": "โฟมล้างหน้า", mask: "มาส์กหน้า",
-  // Phones — มือถือ is what everyone searches, not โทรศัพท์
-  phone: "มือถือ", smartphone: "มือถือ", mobile: "มือถือ",
-  iphone: "ไอโฟน", samsung: "ซัมซุง", android: "แอนดรอยด์",
-  // Computers
-  laptop: "โน้ตบุ๊ก", notebook: "โน้ตบุ๊ก", computer: "คอมพิวเตอร์",
-  tablet: "แท็บเล็ต", ipad: "ไอแพด",
-  // Audio
-  headphone: "หูฟัง", headphones: "หูฟัง", earphone: "หูฟัง",
-  earbuds: "หูฟังไร้สาย", "wireless earbuds": "หูฟังไร้สาย",
-  // Fashion — colloquial terms
-  shoes: "รองเท้า", sneakers: "รองเท้าผ้าใบ", heels: "รองเท้าส้นสูง",
-  sandals: "รองเท้าแตะ", boots: "บูท",
-  bag: "กระเป๋า", handbag: "กระเป๋าถือ", backpack: "กระเป๋าเป้",
-  wallet: "กระเป๋าสตางค์",
-  shirt: "เสื้อ", "t-shirt": "เสื้อยืด", dress: "ชุดเดรส",
-  jeans: "กางเกงยีนส์", pants: "กางเกง", skirt: "กระโปรง",
-  // Electronics
-  watch: "นาฬิกา", smartwatch: "สมาร์ทวอทช์",
-  camera: "กล้อง", tv: "ทีวี", television: "ทีวี",
-  refrigerator: "ตู้เย็น", "washing machine": "เครื่องซักผ้า",
-  "air conditioner": "แอร์", fan: "พัดลม",
-  gaming: "เกมมิ่ง", keyboard: "คีย์บอร์ด", mouse: "เมาส์",
-  // Health & wellness
-  supplement: "อาหารเสริม", vitamin: "วิตามิน", protein: "โปรตีน",
-  // Personal care
-  perfume: "น้ำหอม", shampoo: "แชมพู", conditioner: "ครีมนวด",
-  // Home & misc
-  toy: "ของเล่น", book: "หนังสือ", furniture: "เฟอร์นิเจอร์",
-};
-
-function dictLookup(query: string): string | null {
-  const q = query.toLowerCase().trim();
-  return THAI_DICT[q] ?? null;
-}
-
 /**
- * Translate a short query to Thai using OpenAI.
+ * Returns the Thai search term Thai shoppers actually type on Shopee/Lazada.
+ * Uses colloquial, platform-native phrasing rather than dictionary Thai.
  * Returns null if the key is missing or the call fails.
  */
 async function translateToThai(query: string): Promise<string | null> {
@@ -85,7 +36,11 @@ async function translateToThai(query: string): Promise<string | null> {
           {
             role: "system",
             content:
-              "Translate the product search query to Thai. Reply with ONLY the Thai translation, nothing else.",
+              "You help users search on Thai e-commerce platforms like Shopee and Lazada. " +
+              "Given an English product search query, return the most common Thai search term " +
+              "that Thai shoppers actually type on these platforms — use colloquial, everyday Thai, " +
+              "not formal dictionary translations. For example: 'makeup' → 'แต้งหน้า' (not เครื่องสำอาง), " +
+              "'phone' → 'มือถือ' (not โทรศัพท์). Reply with ONLY the Thai term, nothing else.",
           },
           { role: "user", content: query },
         ],
@@ -176,12 +131,9 @@ export async function GET(request: Request) {
     let products: Product[];
 
     if (country === "TH" && !hasThai(q)) {
-      // 1. Check static dictionary first (instant, no API cost)
-      // 2. Fall back to OpenAI translation if not found
-      // Both run in parallel with the English query
-      const dictResult = dictLookup(q);
+      // Run English query + OpenAI Thai translation in parallel
       const [thaiQuery, englishResults] = await Promise.all([
-        dictResult ? Promise.resolve(dictResult) : translateToThai(q),
+        translateToThai(q),
         makeCachedSearch(q, country, currency)(),
       ]);
 
