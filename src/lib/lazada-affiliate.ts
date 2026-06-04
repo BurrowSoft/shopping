@@ -81,3 +81,35 @@ export async function getLazadaAffiliateLinks(
 export function isLazadaThUrl(url: string): boolean {
   return url.includes("lazada.co.th");
 }
+
+// ─── Shopee Thailand ────────────────────────────────────────────────────────
+
+/**
+ * Appends Shopee affiliate tracking params to a shopee.co.th URL.
+ * Uses the stable mmp_pid publisher ID — no API call required.
+ * Falls back to the original URL if SHOPEE_MMP_PID is not set.
+ */
+export function buildShopeeAffiliateUrl(url: string): string {
+  const mmpPid = process.env.SHOPEE_MMP_PID;
+  if (!mmpPid || !url.includes("shopee.co.th")) return url;
+
+  try {
+    const parsed = new URL(url);
+    // Remove any existing session-specific tracking params first
+    ["uls_trackid", "gads_t_sig", "utm_term", "__mobile__"].forEach((p) =>
+      parsed.searchParams.delete(p)
+    );
+    // Set stable affiliate params
+    parsed.searchParams.set("mmp_pid", mmpPid);
+    parsed.searchParams.set("utm_source", mmpPid);
+    parsed.searchParams.set("utm_medium", "affiliates");
+    return parsed.toString();
+  } catch {
+    return url;
+  }
+}
+
+/** Returns true if this URL is a Shopee Thailand product page. */
+export function isShopeeThUrl(url: string): boolean {
+  return url.includes("shopee.co.th");
+}

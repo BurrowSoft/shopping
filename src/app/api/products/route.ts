@@ -1,7 +1,12 @@
 import { unstable_cache } from "next/cache";
 import { createShoppingRouter, summarize } from "@burrowsoft/shared";
 import type { Product, AISummary } from "@burrowsoft/shared";
-import { getLazadaAffiliateLinks, isLazadaThUrl } from "@/lib/lazada-affiliate";
+import {
+  getLazadaAffiliateLinks,
+  isLazadaThUrl,
+  buildShopeeAffiliateUrl,
+  isShopeeThUrl,
+} from "@/lib/lazada-affiliate";
 
 interface ProductsResponse {
   products: Product[];
@@ -21,18 +26,29 @@ function makeCachedSearch(query: string, country: string, currency: string) {
   );
 }
 
-/** Replace Lazada links with affiliate tracking links for Thai users. */
-async function applyLazadaAffiliateLinks(products: Product[]): Promise<Product[]> {
-  const lazadaUrls = products
+/** Replace Lazada + Shopee links with affiliate tracking links for Thai users. */
+async function applyThaiAffiliateLinks(products: Product[]): Promise<Product[]> {
+  // Shopee: synchronous URL rewrite (no API needed)
+  const withShopee = products.map((p) => ({
+    ...p,
+    link: isShopeeThUrl(p.link) ? buildShopeeAffiliateUrl(p.link) : p.link,
+    offers: p.offers.map((o) => ({
+      ...o,
+      link: isShopeeThUrl(o.link) ? buildShopeeAffiliateUrl(o.link) : o.link,
+    })),
+  }));
+
+  // Lazada: requires API call to get tracking links
+  const lazadaUrls = withShopee
     .flatMap((p) => [p.link, p.offers[0]?.link ?? ""])
     .filter((url) => url && isLazadaThUrl(url));
 
-  if (lazadaUrls.length === 0) return products;
+  if (lazadaUrls.length === 0) return withShopee;
 
   const affiliateMap = await getLazadaAffiliateLinks(lazadaUrls);
-  if (Object.keys(affiliateMap).length === 0) return products;
+  if (Object.keys(affiliateMap).length === 0) return withShopee;
 
-  return products.map((p) => ({
+  return withShopee.map((p) => ({
     ...p,
     link: affiliateMap[p.link] ?? p.link,
     offers: p.offers.map((o) => ({
@@ -59,7 +75,7 @@ export async function GET(request: Request) {
     // For Thai users, replace Lazada product links with affiliate tracking links
     const products =
       country === "TH"
-        ? await applyLazadaAffiliateLinks(result.products)
+        ? await applyThaiAffiliateLinks(result.products)
         : result.products;
 
     return Response.json({ products, summary: result.summary });
