@@ -37,11 +37,30 @@ export function ProductResults({ products, query, country }: Props) {
   const [withReviewsOnly, setWithReviewsOnly] = useState(false);
   const [freeDeliveryOnly, setFreeDeliveryOnly] = useState(false);
 
-  const maxAvailable = useMemo(
-    () => Math.max(...products.map((p) => p.price.amount), 100),
-    [products]
-  );
-  const priceSliderMax = Math.ceil(maxAvailable / 10) * 10;
+  const { minAvailable, maxAvailable, currency } = useMemo(() => {
+    const amounts = products.map((p) => p.price.amount).filter((a) => a > 0);
+    const cur = products[0]?.price.currency ?? "USD";
+    return {
+      minAvailable: amounts.length ? Math.min(...amounts) : 0,
+      maxAvailable: amounts.length ? Math.max(...amounts) : 100,
+      currency: cur,
+    };
+  }, [products]);
+
+  // Round max up to a clean number
+  const priceSliderMax = useMemo(() => {
+    if (maxAvailable <= 100) return 100;
+    const magnitude = Math.pow(10, Math.floor(Math.log10(maxAvailable)));
+    return Math.ceil(maxAvailable / magnitude) * magnitude;
+  }, [maxAvailable]);
+
+  function formatPrice(amount: number): string {
+    return new Intl.NumberFormat(undefined, {
+      style: "currency",
+      currency,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  }
 
   const filtered = useMemo(() => {
     return products.filter((p) => {
@@ -84,8 +103,9 @@ export function ProductResults({ products, query, country }: Props) {
             <h3 className="mb-3 text-sm font-semibold text-slate-700">{t("maxPrice")}</h3>
             <input
               type="range"
-              min={0}
+              min={minAvailable}
               max={priceSliderMax}
+              step={Math.max(1, Math.floor(priceSliderMax / 100))}
               value={maxPrice === Infinity ? priceSliderMax : Math.min(maxPrice, priceSliderMax)}
               onChange={(e) => {
                 const v = Number(e.target.value);
@@ -94,11 +114,11 @@ export function ProductResults({ products, query, country }: Props) {
               className="w-full accent-violet-600"
             />
             <div className="flex justify-between text-xs text-slate-500 mt-1">
-              <span>$0</span>
+              <span>{formatPrice(minAvailable)}</span>
               <span className="font-medium text-violet-600">
-                {maxPrice === Infinity ? "Any" : `$${maxPrice}`}
+                {maxPrice === Infinity ? "Any" : formatPrice(maxPrice)}
               </span>
-              <span>${priceSliderMax}+</span>
+              <span>{formatPrice(priceSliderMax)}+</span>
             </div>
           </div>
 
