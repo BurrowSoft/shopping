@@ -28,9 +28,9 @@ function buildRetailerSearchUrl(title: string, source: string): string {
   const q = encodeURIComponent(englishWords);
   if (src.includes("shopee"))                        return `https://shopee.co.th/search?keyword=${q}`;
   if (src.includes("lazada"))                        return `https://www.lazada.co.th/catalog/?q=${q}`;
-  if (src.includes("powerbuy"))                      return `https://www.powerbuy.co.th/th/search?query=${q}`;
-  if (src.includes("bnn") || src.includes("banana")) return `https://www.bnn.in.th/search?keyword=${q}`;
-  if (src.includes("lotus"))                         return `https://www.lotuss.com/th/`;
+  if (src.includes("powerbuy"))                      return `https://www.powerbuy.co.th/th/search?keyword=${q}`;
+  if (src.includes("bnn") || src.includes("banana")) return `https://www.bnn.in.th/en/search?q=${q}`;
+  if (src.includes("lotus"))                         return `https://www.lotuss.com/en/search?q=${q}`;
   if (src.includes("amazon"))                        return `https://www.amazon.com/s?k=${q}`;
   if (src.includes("ebay"))                          return `https://www.ebay.com/sch/i.html?_nkw=${q}`;
   return "";
