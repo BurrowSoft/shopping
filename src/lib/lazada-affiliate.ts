@@ -216,3 +216,23 @@ export function buildEbayAffiliateUrl(url: string): string {
 export function isEbayUrl(url: string): boolean {
   return url.includes("ebay.");
 }
+
+// ─── Amazon Associates ───────────────────────────────────────────────────────
+// Tag: AMAZON_AFFILIATE_TAG (e.g. burrowsoft-20)
+// Applies to all amazon.* domains — just append ?tag=
+
+export function buildAmazonAffiliateUrl(url: string): string {
+  const tag = process.env.AMAZON_AFFILIATE_TAG;
+  if (!tag || !url.includes("amazon.")) return url;
+  try {
+    const parsed = new URL(url);
+    parsed.searchParams.set("tag", tag);
+    return parsed.toString();
+  } catch {
+    return url;
+  }
+}
+
+export function isAmazonUrl(url: string): boolean {
+  return url.includes("amazon.");
+}

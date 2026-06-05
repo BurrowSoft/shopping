@@ -14,6 +14,8 @@ import {
   isLotussUrl,
   buildEbayAffiliateUrl,
   isEbayUrl,
+  buildAmazonAffiliateUrl,
+  isAmazonUrl,
 } from "@/lib/lazada-affiliate";
 
 interface ProductsResponse {
@@ -105,6 +107,7 @@ function applyPspnLink(url: string): string {
 
 function applyGlobalAffiliateLinks(url: string): string {
   if (isEbayUrl(url)) return buildEbayAffiliateUrl(url);
+  if (isAmazonUrl(url)) return buildAmazonAffiliateUrl(url);
   return url;
 }
 
