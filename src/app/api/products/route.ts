@@ -6,6 +6,10 @@ import {
   isLazadaThUrl,
   buildShopeeAffiliateUrl,
   isShopeeThUrl,
+  buildBnnAffiliateUrl,
+  isBnnUrl,
+  buildPowerbuyAffiliateUrl,
+  isPowerbuyUrl,
 } from "@/lib/lazada-affiliate";
 
 interface ProductsResponse {
@@ -88,16 +92,25 @@ function mergeProducts(a: Product[], b: Product[]): Product[] {
   return merged;
 }
 
-/** Replace Lazada + Shopee links with affiliate tracking links for Thai users. */
+function applyPspnLink(url: string): string {
+  if (isBnnUrl(url)) return buildBnnAffiliateUrl(url);
+  if (isPowerbuyUrl(url)) return buildPowerbuyAffiliateUrl(url);
+  return url;
+}
+
+/** Replace Thai retailer links with affiliate tracking links. */
 async function applyThaiAffiliateLinks(products: Product[]): Promise<Product[]> {
-  const withShopee = products.map((p) => ({
-    ...p,
-    link: isShopeeThUrl(p.link) ? buildShopeeAffiliateUrl(p.link) : p.link,
-    offers: p.offers.map((o) => ({
-      ...o,
-      link: isShopeeThUrl(o.link) ? buildShopeeAffiliateUrl(o.link) : o.link,
-    })),
-  }));
+  const withShopee = products.map((p) => {
+    const link = isShopeeThUrl(p.link) ? buildShopeeAffiliateUrl(p.link) : applyPspnLink(p.link);
+    return {
+      ...p,
+      link,
+      offers: p.offers.map((o) => ({
+        ...o,
+        link: isShopeeThUrl(o.link) ? buildShopeeAffiliateUrl(o.link) : applyPspnLink(o.link),
+      })),
+    };
+  });
 
   const lazadaUrls = withShopee
     .flatMap((p) => [p.link, p.offers[0]?.link ?? ""])

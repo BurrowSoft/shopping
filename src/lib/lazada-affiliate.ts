@@ -115,3 +115,63 @@ export function buildShopeeAffiliateUrl(url: string): string {
 export function isShopeeThUrl(url: string): boolean {
   return url.includes("shopee.co.th");
 }
+
+// ─── Priceza Publisher Network (PSPN) — BNN + Powerbuy ──────────────────────
+// Both retailers use AppsFlyer + Priceza tracking.
+// Publisher ID: PSPN_PUBLISHER_ID (e.g. 140450)
+// BNN site ID:      301266
+// Powerbuy site ID: 301296 (prefixed with "U" in af_siteid)
+
+function generatePzClickId(siteId: string): string {
+  // Format: r-th--{SITE_ID}--{UUID_no_hyphens}--{hex_timestamp}
+  const uuid = crypto.randomUUID().replace(/-/g, "");
+  const ts = Date.now().toString(16);
+  return `r-th--${siteId}--${uuid}--${ts}`;
+}
+
+function buildPspnUrl(url: string, siteId: string, extraParams: Record<string, string> = {}): string {
+  const publisherId = process.env.PSPN_PUBLISHER_ID;
+  if (!publisherId) return url;
+  try {
+    const parsed = new URL(url);
+    // Strip any existing tracking params
+    ["utm_source", "utm_medium", "utm_campaign", "af_siteid", "c",
+     "pzclickid", "clickid", "pid", "af_click_lookback", "af_xp",
+     "af_dp", "deep_link_value", "openExternalBrowser", "af_reengagement_window",
+     "is_retargeting", "af_force_deeplink"].forEach((p) =>
+      parsed.searchParams.delete(p)
+    );
+    // Set affiliate params
+    parsed.searchParams.set("utm_source", `pspn-support-${publisherId}`);
+    parsed.searchParams.set("utm_medium", "web");
+    parsed.searchParams.set("utm_campaign", "na");
+    parsed.searchParams.set("c", `pspn-support-${publisherId}`);
+    parsed.searchParams.set("pzclickid", generatePzClickId(siteId));
+    for (const [k, v] of Object.entries(extraParams)) {
+      parsed.searchParams.set(k, v);
+    }
+    return parsed.toString();
+  } catch {
+    return url;
+  }
+}
+
+export function buildBnnAffiliateUrl(url: string): string {
+  return buildPspnUrl(url, "301266", { af_siteid: "301266" });
+}
+
+export function buildPowerbuyAffiliateUrl(url: string): string {
+  return buildPspnUrl(url, "301296", {
+    af_siteid: "U301296",
+    pid: "priceza_int",
+    af_click_lookback: "30d",
+  });
+}
+
+export function isBnnUrl(url: string): boolean {
+  return url.includes("bnn.in.th");
+}
+
+export function isPowerbuyUrl(url: string): boolean {
+  return url.includes("powerbuy.co.th");
+}

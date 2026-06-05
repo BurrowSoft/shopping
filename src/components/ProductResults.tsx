@@ -6,15 +6,15 @@ import type { Product } from "@burrowsoft/shared";
 import { ProductCard } from "./ProductCard";
 import { AdUnit } from "./AdUnit";
 
-const THAI_PLATFORMS = ["lazada.co.th", "shopee.co.th"];
+const THAI_DOMAINS = ["lazada.co.th", "shopee.co.th", "bnn.in.th", "powerbuy.co.th"];
+const THAI_SOURCE_KEYWORDS = ["lazada", "shopee", "bnn", "banana", "powerbuy"];
 
 function isThaiPlatform(p: Product) {
   const link = p.link || p.offers[0]?.link || "";
   const src = p.source.toLowerCase();
   return (
-    THAI_PLATFORMS.some((d) => link.includes(d)) ||
-    src.includes("lazada") ||
-    src.includes("shopee")
+    THAI_DOMAINS.some((d) => link.includes(d)) ||
+    THAI_SOURCE_KEYWORDS.some((k) => src.includes(k))
   );
 }
 
