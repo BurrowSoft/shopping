@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Read(//c/Users/VICTUS/Desktop/burrowsoft-web-apps/**)"
+      "Read(//c/Users/VICTUS/Desktop/burrowsoft-web-apps/**)",
+      "WebFetch(domain:open.lazada.com)"
     ],
     "additionalDirectories": [
       "C:\\Users\\VICTUS\\Desktop\\burrowsoft-web-apps\\shared\\src\\providers\\shopping",

@@ -1,0 +1,191 @@
+(function () {
+  var lazadaCountry = ['sg', 'my', 'th', 'vn', 'id', 'ph'];
+  var darazCountry = ['mm', 'pk', 'bd', 'lk', 'np'];
+
+  var domain = {
+    sg: '.sg', // 新加坡
+    my: '.com.my', // 马来
+    th: '.co.th', // 泰国
+    vn: '.vn', // 越南
+    id: '.co.id', // 印度尼西亚
+    ph: '.com.ph', // 菲律宾
+    mm: '.com.mm', // 缅甸
+    pk: '.pk', // 巴基斯坦
+    bd: '.com.bd', // 孟加拉国
+    lk: '.lk', // 斯里兰卡
+    np: '.com.np', // 尼泊尔
+  };
+
+  var domainWithBusiness = {
+    sg: '.lazada.sg', // 新加坡
+    my: '.lazada.com.my', // 马来
+    th: '.lazada.co.th', // 泰国
+    vn: '.lazada.vn', // 越南
+    id: '.lazada.co.id', // 印度尼西亚
+    ph: '.lazada.com.ph', // 菲律宾
+    mm: '.shop.com.mm', // 缅甸
+    pk: '.daraz.pk', // 巴基斯坦
+    bd: '.daraz.com.bd', // 孟加拉国
+    lk: '.daraz.lk', // 斯里兰卡
+    np: '.daraz.com.np', // 尼泊尔
+  };
+
+  var written = {
+    sg: 'Lazada', // 新加坡
+    my: 'Lazada', // 马来
+    th: 'Lazada', // 泰国
+    vn: 'Lazada', // 越南
+    id: 'Lazada', // 印度尼西亚
+    ph: 'Lazada', // 菲律宾
+    mm: 'Shop', // 缅甸
+    pk: 'Daraz', // 巴基斯坦
+    bd: 'Daraz', // 孟加拉国
+    lk: 'Daraz', // 斯里兰卡
+    np: 'Daraz', // 尼泊尔
+  };
+
+  var countryEmail = {
+    sg: 'affiliate@lazada.sg', // 新加坡
+    my: 'affiliate@lazada.com.my', // 马来
+    th: 'affiliate@lazada.co.th', // 泰国
+    vn: 'affiliate@lazada.vn', // 越南
+    id: 'affiliate@lazada.co.id', // 印度尼西亚
+    ph: 'affiliate@lazada.com.ph', // 菲律宾
+    mm: 'affiliate@shop.com.mm', // 缅甸
+    pk: 'affiliate@daraz.pk', // 巴基斯坦
+    bd: 'affiliate@daraz.com.bd', // 孟加拉国
+    lk: 'affiliate@daraz.lk', // 斯里兰卡
+    np: 'affiliate@daraz.com.np', // 尼泊尔
+  };
+
+  var countryWritten = {
+    sg: 'Singapore', // 新加坡
+    my: 'Malaysia', // 马来
+    th: 'Thailand', // 泰国
+    vn: 'Vietnam', // 越南
+    id: 'Indonesia', // 印度尼西亚
+    ph: 'Philippines', // 菲律宾
+    mm: 'Myanmar', // 缅甸
+    pk: 'Pakistan', // 巴基斯坦
+    bd: 'Bangladesh', // 孟加拉国
+    lk: 'Sri Lanka', // 斯里兰卡
+    np: 'Nepal', // 尼泊尔
+  };
+
+  var circleFlag = {
+    sg: 'https://lzd-img-global.slatic.net/g/tps/tfs/TB1Npl8p7P2gK0jSZPxXXacQpXa-1024-1024.png',
+    my: 'https://lzd-img-global.slatic.net/g/tps/tfs/TB1Hft9p1H2gK0jSZFEXXcqMpXa-1024-1024.png',
+    th: 'https://lzd-img-global.slatic.net/g/tps/tfs/TB1_0X7p7L0gK0jSZFtXXXQCXXa-1024-1024.png',
+    vn: 'https://lzd-img-global.slatic.net/g/tps/tfs/TB1faOXpYj1gK0jSZFOXXc7GpXa-1024-1024.png',
+    id: 'https://lzd-img-global.slatic.net/g/tps/tfs/TB1zTh7p8v0gK0jSZKbXXbK2FXa-1024-1024.png',
+    ph: 'https://lzd-img-global.slatic.net/g/tps/tfs/TB1I_d7p.T1gK0jSZFrXXcNCXXa-1024-1024.png',
+    mm: 'https://lzd-img-global.slatic.net/us/media/ac2578d7000e41b84d1fa73adc3b22d7-150-150.png',
+    pk: 'https://lzd-img-global.slatic.net/us/media/f259bff072a3828df230b31d59cf4688-150-150.png',
+    bd: 'https://lzd-img-global.slatic.net/us/media/440e0ad5407d20ad32c74e43914e9565-150-150.png',
+    lk: 'https://lzd-img-global.slatic.net/us/media/9672adf1f89ad915523a5f4bee1d5be5-150-150.png',
+    np: 'https://lzd-img-global.slatic.net/us/media/8eea12a8e6e791880b686f4a4cbb5052-150-150.png',
+  };
+
+  var flag = {
+    sg: 'https://lzd-img-global.slatic.net/g/tps/tfs/TB1K8HsieuSBuNjy1XcXXcYjFXa-301-200.png',
+    my: 'https://lzd-img-global.slatic.net/g/tps/tfs/TB1egiGiXmWBuNjSspdXXbugXXa-301-200.png',
+    th: 'https://lzd-img-global.slatic.net/g/tps/tfs/TB1EsHzibSYBuNjSspfXXcZCpXa-301-200.png',
+    vn: 'https://lzd-img-global.slatic.net/g/tps/tfs/TB16yOViXuWBuNjSszbXXcS7FXa-301-200.png',
+    id: 'https://lzd-img-global.slatic.net/g/tps/tfs/TB1KBHsieuSBuNjy1XcXXcYjFXa-302-200.png',
+    ph: 'https://lzd-img-global.slatic.net/g/tps/tfs/TB1xCpsiDtYBeNjy1XdXXXXyVXa-301-200.png',
+    mm: 'https://lzd-img-global.slatic.net/us/media/716740b9efe5a8305a623278408fbffb-225-150.svg',
+    pk: 'https://lzd-img-global.slatic.net/us/media/797751218d6a951f36fbc0092f5094e0-225-150.svg',
+    bd: 'https://lzd-img-global.slatic.net/us/media/2d31116b8b9e94d82cacb9b6c80533db-225-150.svg',
+    lk: 'https://lzd-img-global.slatic.net/us/media/61af2a089a00300f45aa46e5f4b0e2e9-225-150.svg',
+    np: 'https://lzd-img-global.slatic.net/us/media/fe469b86da70f459e1e1538d0bace834-225-150.svg',
+  };
+
+  function getSearch() {
+    return window.location.search
+      .slice(1)
+      .split('&')
+      .reduce(function (prev, next) {
+        var arr = next.split('=');
+        var key = arr[0];
+        var value = arr[1];
+        prev[key] = value;
+        return prev;
+      }, {});
+  }
+
+  // 国家默认sg
+  var curCountry =
+    Object.keys(domain).find(function (n) {
+      return (
+        window.location.host.indexOf(domain[n]) >= 0 &&
+        window.location.host.indexOf(domain[n]) + domain[n].length === window.location.host.length
+      );
+    }) ||
+    (getSearch() && getSearch().venture && getSearch().venture.toLowerCase()) ||
+    Object.keys(domain).find(function (n) {
+      return window.location.host.split('.').find(function (h) {
+        return h === n || h === 'pre-' + n;
+      });
+    }) ||
+    (window.location.host.indexOf('daraz') >= 0 ? 'pk' : 'sg');
+
+  // 业务域默认lazada
+  var curBusiness = lazadaCountry.includes(curCountry)
+    ? 'lazada'
+    : darazCountry.includes(curCountry)
+    ? 'daraz'
+    : 'lazada';
+
+  window.getBusConfig = function (business, country) {
+    return {
+      lazada: {
+        logKey: '/affiliate.adsense.pc',
+        itrace: 'jtkjl9jz-5f8ixe9c',
+        cdn: 'g.lazcdn.com',
+        imgCdn: 'lzd-img-global.slatic.net',
+        domainWithBusiness: domainWithBusiness[country],
+        name: country,
+        domain: domain[country],
+        business: business,
+        memberDomain: `member${domainWithBusiness[country]}`,
+        affiliatePath: `//www${domainWithBusiness[country]}/affiliate`,
+        sellerCenterPath: `//sellercenter${domainWithBusiness[country]}`,
+        written: written[country],
+        countryEmail: countryEmail[country],
+        countryWritten: countryWritten[country],
+        circleFlag: circleFlag[country],
+        flag: flag[country],
+        busCountry: lazadaCountry,
+        nameLower: country.toLowerCase(),
+        nameUpper: country.toUpperCase(),
+        appItrace: 'affiliate-individual-app',
+        protocol: 'lazada:',
+      },
+      daraz: {
+        logKey: '/daraz.affiliate.adsense.pc',
+        itrace: '2eln48y1-hm0eokh4',
+        cdn: 'g.lazcdn.com',
+        imgCdn: 'lzd-img-global.slatic.net',
+        domainWithBusiness: domainWithBusiness[country],
+        name: country,
+        domain: domain[country],
+        business: business,
+        memberDomain: `member${domainWithBusiness[country]}`,
+        affiliatePath: `//www${domainWithBusiness[country]}/affiliate`,
+        sellerCenterPath: `//sellercenter${domainWithBusiness[country]}`,
+        written: written[country],
+        countryEmail: countryEmail[country],
+        countryWritten: countryWritten[country],
+        circleFlag: circleFlag[country],
+        flag: flag[country],
+        busCountry: darazCountry,
+        nameLower: country.toLowerCase(),
+        nameUpper: country.toUpperCase(),
+        appItrace: 'daraz-affiliate-individual-app',
+        protocol: 'daraz:',
+      },
+    }[business];
+  };
+
+  window.__bus_config__ = window.getBusConfig(curBusiness, curCountry);
+})();
