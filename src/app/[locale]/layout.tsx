@@ -17,7 +17,7 @@ import { routing } from "@/i18n/routing";
 import { SITE_NAME, SITE_DESCRIPTION, websiteJsonLd } from "@/lib/seo";
 import { getCurrencyForCountry } from "@/lib/currency";
 import { CurrencyProvider } from "@/components/CurrencyProvider";
-import { SearchBar } from "@/components/SearchBar";
+import { HeaderSearchBar } from "@/components/HeaderSearchBar";
 import { LocaleSwitch } from "@/components/LocaleSwitch";
 import { detectCountry, RegionalFloatingAd } from "@burrowsoft/shared";
 import "../globals.css";
@@ -159,9 +159,7 @@ export default async function LocaleLayout({
                 <span aria-hidden>🛍️</span>
                 {t("home")}
               </Link>
-              <div className="flex-1 max-w-2xl">
-                <SearchBar />
-              </div>
+              <HeaderSearchBar />
               <div className="hidden sm:flex items-center gap-4 text-sm font-medium text-slate-600 shrink-0">
                 <Link href="/search?q=electronics+deals" className="hover:text-violet-600 transition-colors">
                   {t("electronics")}

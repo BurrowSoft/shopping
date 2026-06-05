@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { SearchBar } from "@/components/SearchBar";
 import { LazadaDealsBanner } from "@/components/LazadaDealsBanner";
 import { ShopeeDealsSection } from "@/components/ShopeeDealsSection";
+import { ThaiDealsStrip } from "@/components/ThaiDealsStrip";
 import { CATEGORIES, TRENDING_SEARCHES, FEATURES } from "@/lib/data";
 import { SITE_NAME, SITE_DESCRIPTION } from "@/lib/seo";
 import { detectCountry } from "@burrowsoft/shared";
@@ -59,7 +60,12 @@ export default async function HomePage() {
           <div className="mx-auto max-w-2xl">
             <SearchBar large />
           </div>
-          <div className="mt-6 flex flex-wrap justify-center gap-2">
+          {isThai && (
+            <div className="mt-4">
+              <ThaiDealsStrip />
+            </div>
+          )}
+          <div className="mt-4 flex flex-wrap justify-center gap-2">
             <span className="text-sm text-violet-300 mr-1">{t("trending")}:</span>
             {TRENDING_SEARCHES.slice(0, 6).map((s) => (
               <Link

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { Link } from "@/i18n/navigation";
-import { SearchBar } from "@/components/SearchBar";
 import { SearchPageClient } from "@/components/SearchPageClient";
 import { buildSearchMetadata, SITE_NAME, SITE_URL } from "@/lib/seo";
 import { getCurrencyForCountry } from "@/lib/currency";
@@ -29,23 +28,6 @@ export default async function SearchPage({ searchParams }: Props) {
 
   return (
     <>
-      <div className="bg-gradient-to-br from-violet-700 via-violet-600 to-purple-600 py-8">
-        <div className="mx-auto max-w-4xl px-4">
-          <nav aria-label="Breadcrumb" className="mb-4">
-            <ol className="flex items-center gap-2 text-sm text-violet-200">
-              <li>
-                <Link href="/" className="hover:text-white transition-colors">Home</Link>
-              </li>
-              <li aria-hidden>/</li>
-              <li className="text-white font-medium truncate max-w-xs">
-                {query ? `"${query}"` : "Search"}
-              </li>
-            </ol>
-          </nav>
-          <SearchBar defaultValue={query} large />
-        </div>
-      </div>
-
       <div className="mx-auto max-w-7xl px-4 py-10">
         {query && (
           <h1 className="mb-4 text-xl font-bold text-slate-900">

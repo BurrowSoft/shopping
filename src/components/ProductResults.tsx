@@ -7,11 +7,18 @@ import { ProductCard } from "./ProductCard";
 
 const THAI_DOMAINS = ["lazada.co.th", "shopee.co.th", "bnn.in.th", "powerbuy.co.th",
   "s.lazada.co.th", "s.shopee.co.th", "c.lazada.co.th", "an_redir"];
+const THAI_SOURCE_KEYWORDS = ["lazada", "shopee", "bnn", "banana", "powerbuy"];
 
 function isThaiPlatform(p: Product) {
-  // Only trust the link, not the source name — source can say "Powerbuy" but link may be google.com
   const link = p.link || p.offers[0]?.link || "";
-  return link.length > 0 && THAI_DOMAINS.some((d) => link.includes(d));
+  const src = p.source.toLowerCase();
+  // Trust domain in link first
+  if (THAI_DOMAINS.some((d) => link.includes(d))) return true;
+  // Trust source name when the link is NOT a google.com URL (which is just a fallback)
+  if (!link.includes("google.com") && THAI_SOURCE_KEYWORDS.some((k) => src.includes(k))) return true;
+  // Source says Thai platform but link is empty — still Thai, card will just be non-clickable
+  if (!link && THAI_SOURCE_KEYWORDS.some((k) => src.includes(k))) return true;
+  return false;
 }
 
 interface Props {
