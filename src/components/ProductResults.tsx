@@ -74,7 +74,7 @@ export function ProductResults({ products, query, country }: Props) {
       if (!isThai && isThaiPlatform(p)) return false;
       return true;
     });
-  }, [products, maxPrice, minRating, withReviewsOnly, freeDeliveryOnly, isThai, includeIntl]);
+  }, [products, maxPrice, minRating, withReviewsOnly, freeDeliveryOnly, isThai, localOnly]);
 
   const sorted = useMemo(() => {
     return [...filtered].sort((a, b) => {
