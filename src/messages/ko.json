@@ -1,5 +1,10 @@
 {
-  "nav": { "home": "ShoppingMole", "electronics": "전자기기", "fashion": "패션", "deals": "특가" },
+  "nav": {
+    "home": "ShoppingMole",
+    "electronics": "전자기기",
+    "fashion": "패션",
+    "deals": "특가"
+  },
   "hero": {
     "title": "모든 상품의 최저가를 즉시 찾아보세요",
     "subtitle": "Amazon, eBay, Walmart, Best Buy 및 500개 이상의 쇼핑몰 가격을 한 번에 비교.",
@@ -64,5 +69,8 @@
     "priceAlerts": "가격 알림",
     "browserExtension": "브라우저 확장 프로그램",
     "support": "support@shoppingmole.com"
+  },
+  "noAds": {
+    "tagline": "깔끔한 검색 · 광고 없음 · 가입 불필요"
   }
 }

@@ -1,5 +1,10 @@
 {
-  "nav": { "home": "ShoppingMole", "electronics": "Электроника", "fashion": "Мода", "deals": "Акции" },
+  "nav": {
+    "home": "ShoppingMole",
+    "electronics": "Электроника",
+    "fashion": "Мода",
+    "deals": "Акции"
+  },
   "hero": {
     "title": "Найдите лучшую цену на всё — мгновенно",
     "subtitle": "Сравните цены на Amazon, eBay, Walmart, Best Buy и в 500+ магазинах за один поиск.",
@@ -64,5 +69,8 @@
     "priceAlerts": "Оповещения о ценах",
     "browserExtension": "Расширение браузера",
     "support": "support@shoppingmole.com"
+  },
+  "noAds": {
+    "tagline": "Чистый поиск. Без рекламы. Без регистрации."
   }
 }

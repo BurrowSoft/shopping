@@ -1,5 +1,10 @@
 {
-  "nav": { "home": "ShoppingMole", "electronics": "Elettronica", "fashion": "Moda", "deals": "Offerte" },
+  "nav": {
+    "home": "ShoppingMole",
+    "electronics": "Elettronica",
+    "fashion": "Moda",
+    "deals": "Offerte"
+  },
   "hero": {
     "title": "Trova il miglior prezzo su qualsiasi cosa, all'istante",
     "subtitle": "Confronta i prezzi su Amazon, eBay, Walmart, Best Buy e 500+ negozi in un'unica ricerca.",
@@ -64,5 +69,8 @@
     "priceAlerts": "Avvisi di prezzo",
     "browserExtension": "Estensione browser",
     "support": "support@shoppingmole.com"
+  },
+  "noAds": {
+    "tagline": "Ricerca pulita. Zero pubblicità. Zero registrazione."
   }
 }

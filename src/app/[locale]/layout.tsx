@@ -244,7 +244,7 @@ export default async function LocaleLayout({
               </div>
             </div>
           </footer>
-          <RegionalFloatingAd />
+          {/* <RegionalFloatingAd /> */}
         </NextIntlClientProvider>
         <Analytics />
       </body>

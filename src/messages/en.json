@@ -69,5 +69,8 @@
     "priceAlerts": "Price alerts",
     "browserExtension": "Browser extension",
     "support": "support@shoppingmole.com"
+  },
+  "noAds": {
+    "tagline": "Clean Search. No Ads. No Sign-Up."
   }
 }

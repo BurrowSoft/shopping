@@ -1,5 +1,10 @@
 {
-  "nav": { "home": "ShoppingMole", "electronics": "電子產品", "fashion": "時尚", "deals": "優惠" },
+  "nav": {
+    "home": "ShoppingMole",
+    "electronics": "電子產品",
+    "fashion": "時尚",
+    "deals": "優惠"
+  },
   "hero": {
     "title": "即刻找到任何商品的最低價",
     "subtitle": "一次搜尋，比較亞馬遜、eBay、Walmart、Best Buy及500+家商店的價格。",
@@ -64,5 +69,8 @@
     "priceAlerts": "價格提醒",
     "browserExtension": "瀏覽器擴充套件",
     "support": "support@shoppingmole.com"
+  },
+  "noAds": {
+    "tagline": "純淨搜尋 · 無廣告 · 無需註冊"
   }
 }

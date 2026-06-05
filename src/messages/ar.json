@@ -1,5 +1,10 @@
 {
-  "nav": { "home": "ShoppingMole", "electronics": "الإلكترونيات", "fashion": "الموضة", "deals": "العروض" },
+  "nav": {
+    "home": "ShoppingMole",
+    "electronics": "الإلكترونيات",
+    "fashion": "الموضة",
+    "deals": "العروض"
+  },
   "hero": {
     "title": "اعثر على أفضل سعر لأي شيء، فورًا",
     "subtitle": "قارن الأسعار عبر Amazon وeBay وWalmart وBest Buy وأكثر من 500 متجر في بحث واحد.",
@@ -64,5 +69,8 @@
     "priceAlerts": "تنبيهات الأسعار",
     "browserExtension": "إضافة المتصفح",
     "support": "support@shoppingmole.com"
+  },
+  "noAds": {
+    "tagline": "بحث نظيف. بلا إعلانات. بلا تسجيل."
   }
 }

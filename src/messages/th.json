@@ -69,5 +69,8 @@
     "priceAlerts": "แจ้งเตือนราคา",
     "browserExtension": "ส่วนขยายเบราว์เซอร์",
     "support": "support@shoppingmole.com"
+  },
+  "noAds": {
+    "tagline": "ค้นหาสะอาด ไม่มีโฆษณา ไม่ต้องสมัคร"
   }
 }

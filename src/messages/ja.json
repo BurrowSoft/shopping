@@ -1,5 +1,10 @@
 {
-  "nav": { "home": "ShoppingMole", "electronics": "電子機器", "fashion": "ファッション", "deals": "お得情報" },
+  "nav": {
+    "home": "ShoppingMole",
+    "electronics": "電子機器",
+    "fashion": "ファッション",
+    "deals": "お得情報"
+  },
   "hero": {
     "title": "あらゆる商品の最安値をすぐに見つけよう",
     "subtitle": "Amazon、eBay、Walmart、Best Buyほか500以上のショップを一度に価格比較。",
@@ -64,5 +69,8 @@
     "priceAlerts": "価格アラート",
     "browserExtension": "ブラウザ拡張",
     "support": "support@shoppingmole.com"
+  },
+  "noAds": {
+    "tagline": "クリーン検索。広告ゼロ。登録ゼロ。"
   }
 }

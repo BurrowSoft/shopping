@@ -1,5 +1,10 @@
 {
-  "nav": { "home": "ShoppingMole", "electronics": "Elektronik", "fashion": "Fashion", "deals": "Penawaran" },
+  "nav": {
+    "home": "ShoppingMole",
+    "electronics": "Elektronik",
+    "fashion": "Fashion",
+    "deals": "Penawaran"
+  },
   "hero": {
     "title": "Temukan Harga Terbaik untuk Apa Saja, Seketika",
     "subtitle": "Bandingkan harga di Amazon, eBay, Walmart, Best Buy, dan 500+ toko dalam satu pencarian.",
@@ -64,5 +69,8 @@
     "priceAlerts": "Notifikasi harga",
     "browserExtension": "Ekstensi browser",
     "support": "support@shoppingmole.com"
+  },
+  "noAds": {
+    "tagline": "Pencarian bersih. Tanpa iklan. Tanpa daftar."
   }
 }

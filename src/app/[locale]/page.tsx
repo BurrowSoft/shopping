@@ -19,9 +19,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const canonical = locale === "en" ? `${BASE}/` : `${BASE}/${locale}/`;
+  const tNoAds = await getTranslations({ locale, namespace: "noAds" });
   return {
     title: `${SITE_NAME} — Compare Prices Across Hundreds of Stores`,
-    description: SITE_DESCRIPTION,
+    description: `${tNoAds("tagline")} ${SITE_DESCRIPTION}`,
     alternates: { canonical },
   };
 }
@@ -35,6 +36,7 @@ const stats = [
 
 export default async function HomePage() {
   const t = await getTranslations("hero");
+  const tNoAds = await getTranslations("noAds");
   const country = detectCountry(await headers());
   const isThai = country === "TH";
   return (
@@ -51,6 +53,9 @@ export default async function HomePage() {
           >
             {t("title")}
           </h1>
+          <p className="text-base font-semibold tracking-wide text-amber-600 mt-2">
+            {tNoAds("tagline")}
+          </p>
           <p className="mb-10 text-lg text-violet-100 sm:text-xl">{t("subtitle")}</p>
           <div className="mx-auto max-w-2xl">
             <SearchBar large />
@@ -83,8 +88,10 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ARCHIVED — re-enable when ad campaign launches
       {isThai && <LazadaDealsBanner />}
       {isThai && <ShopeeDealsSection />}
+      */}
 
       <section className="mx-auto max-w-7xl px-4 py-14" aria-labelledby="categories-heading">
         <h2 id="categories-heading" className="mb-2 text-2xl font-bold text-slate-900">Browse by Category</h2>

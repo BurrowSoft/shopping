@@ -1,5 +1,10 @@
 {
-  "nav": { "home": "ShoppingMole", "electronics": "Điện tử", "fashion": "Thời trang", "deals": "Khuyến mãi" },
+  "nav": {
+    "home": "ShoppingMole",
+    "electronics": "Điện tử",
+    "fashion": "Thời trang",
+    "deals": "Khuyến mãi"
+  },
   "hero": {
     "title": "Tìm giá tốt nhất cho bất kỳ sản phẩm nào, ngay lập tức",
     "subtitle": "So sánh giá trên Amazon, eBay, Walmart, Best Buy và hơn 500 cửa hàng trong một lần tìm kiếm.",
@@ -64,5 +69,8 @@
     "priceAlerts": "Thông báo giá",
     "browserExtension": "Tiện ích trình duyệt",
     "support": "support@shoppingmole.com"
+  },
+  "noAds": {
+    "tagline": "Tìm kiếm sạch · Không quảng cáo · Không đăng ký"
   }
 }

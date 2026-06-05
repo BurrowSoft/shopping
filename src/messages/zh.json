@@ -1,5 +1,10 @@
 {
-  "nav": { "home": "ShoppingMole", "electronics": "电子产品", "fashion": "时尚", "deals": "优惠" },
+  "nav": {
+    "home": "ShoppingMole",
+    "electronics": "电子产品",
+    "fashion": "时尚",
+    "deals": "优惠"
+  },
   "hero": {
     "title": "即刻找到任何商品的最低价",
     "subtitle": "一次搜索，比较亚马逊、eBay、Walmart、Best Buy及500+家商店的价格。",
@@ -64,5 +69,8 @@
     "priceAlerts": "价格提醒",
     "browserExtension": "浏览器扩展",
     "support": "support@shoppingmole.com"
+  },
+  "noAds": {
+    "tagline": "纯净搜索 · 无广告 · 无需注册"
   }
 }
