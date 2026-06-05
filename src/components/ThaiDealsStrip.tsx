@@ -34,8 +34,12 @@ function DealCard({ product }: { product: Product }) {
   );
 }
 
+const SCROLL_AMOUNT = 480; // ~3 cards
+
 export function ThaiDealsStrip() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [canLeft, setCanLeft] = useState(false);
+  const [canRight, setCanRight] = useState(false);
   const stripRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,18 +49,63 @@ export function ThaiDealsStrip() {
       .catch(() => {});
   }, []);
 
+  function updateArrows() {
+    const el = stripRef.current;
+    if (!el) return;
+    setCanLeft(el.scrollLeft > 4);
+    setCanRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  }
+
+  useEffect(() => {
+    const el = stripRef.current;
+    if (!el) return;
+    updateArrows();
+    el.addEventListener("scroll", updateArrows, { passive: true });
+    const ro = new ResizeObserver(updateArrows);
+    ro.observe(el);
+    return () => { el.removeEventListener("scroll", updateArrows); ro.disconnect(); };
+  }, [products]);
+
+  function scrollBy(dir: 1 | -1) {
+    stripRef.current?.scrollBy({ left: dir * SCROLL_AMOUNT, behavior: "smooth" });
+  }
+
   if (products.length === 0) return null;
 
   return (
     <div className="mx-auto max-w-4xl px-2 pb-3">
-      <div
-        ref={stripRef}
-        className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide"
-        style={{ scrollbarWidth: "none" }}
-      >
-        {products.map((p) => (
-          <DealCard key={p.id} product={p} />
-        ))}
+      <div className="relative">
+        {/* Left arrow */}
+        {canLeft && (
+          <button
+            onClick={() => scrollBy(-1)}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1 z-10 hidden sm:flex items-center justify-center w-8 h-8 rounded-full bg-white shadow-md border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
+            aria-label="Scroll left"
+          >
+            ‹
+          </button>
+        )}
+
+        <div
+          ref={stripRef}
+          className="flex gap-3 overflow-x-auto pb-1"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {products.map((p) => (
+            <DealCard key={p.id} product={p} />
+          ))}
+        </div>
+
+        {/* Right arrow */}
+        {canRight && (
+          <button
+            onClick={() => scrollBy(1)}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1 z-10 hidden sm:flex items-center justify-center w-8 h-8 rounded-full bg-white shadow-md border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
+            aria-label="Scroll right"
+          >
+            ›
+          </button>
+        )}
       </div>
     </div>
   );
