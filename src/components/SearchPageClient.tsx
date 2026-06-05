@@ -77,33 +77,41 @@ export function SearchPageClient({ query, country, currency, providers }: Props)
 
       {!loading && !error && products.length > 0 && (
         <>
+          {/* AI summary — desktop only, expands on hover */}
           {summary && (
-            <div className="mb-6 rounded-xl border border-violet-100 bg-violet-50 px-5 py-4">
-              <div className="flex items-start gap-3">
-                <span className="mt-0.5 text-xl">✨</span>
-                <div>
-                  <p className="text-sm font-semibold text-violet-800 mb-1">
-                    {t("aiSummary")}
-                  </p>
-                  <p className="text-sm text-violet-700 leading-relaxed">{summary.summary}</p>
-                  {summary.highlights.length > 0 && (
-                    <ul className="mt-2 space-y-0.5">
-                      {summary.highlights.map((h, i) => (
-                        <li key={i} className="flex items-start gap-1.5 text-xs text-violet-600">
-                          <span className="mt-0.5 text-violet-400">›</span>
-                          {h}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  {summary.recommendation && (
-                    <p className="mt-2 text-xs font-medium text-violet-700">
-                      {t("aiRecommendation", { text: summary.recommendation })}
-                    </p>
-                  )}
-                  {summary.countryNote && (
-                    <p className="mt-1 text-xs text-violet-500 italic">{summary.countryNote}</p>
-                  )}
+            <div className="mb-6 hidden sm:block group rounded-xl border border-violet-100 bg-violet-50 overflow-hidden transition-all duration-300">
+              {/* Collapsed bar */}
+              <div className="flex items-center gap-2 px-4 py-2.5 group-hover:hidden">
+                <span className="text-base">✨</span>
+                <p className="text-sm font-semibold text-violet-700">{t("aiSummary")}</p>
+                <span className="ml-auto text-xs text-violet-400">hover to expand</span>
+              </div>
+              {/* Expanded content */}
+              <div className="hidden group-hover:block px-5 py-4">
+                <div className="flex items-start gap-3">
+                  <span className="mt-0.5 text-xl">✨</span>
+                  <div>
+                    <p className="text-sm font-semibold text-violet-800 mb-1">{t("aiSummary")}</p>
+                    <p className="text-sm text-violet-700 leading-relaxed">{summary.summary}</p>
+                    {summary.highlights.length > 0 && (
+                      <ul className="mt-2 space-y-0.5">
+                        {summary.highlights.map((h, i) => (
+                          <li key={i} className="flex items-start gap-1.5 text-xs text-violet-600">
+                            <span className="mt-0.5 text-violet-400">›</span>
+                            {h}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {summary.recommendation && (
+                      <p className="mt-2 text-xs font-medium text-violet-700">
+                        {t("aiRecommendation", { text: summary.recommendation })}
+                      </p>
+                    )}
+                    {summary.countryNote && (
+                      <p className="mt-1 text-xs text-violet-500 italic">{summary.countryNote}</p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
