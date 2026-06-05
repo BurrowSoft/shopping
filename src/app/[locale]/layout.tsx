@@ -158,17 +158,17 @@ export default async function LocaleLayout({
             >
               <Link
                 href="/"
-                className="flex items-center gap-2.5"
+                className="flex shrink-0 items-center gap-2.5"
               >
                 <Image
-                  src="/mascot.svg"
+                  src="/shopping.png"
                   alt="ShoppingMole"
                   width={36}
                   height={36}
                   className="shrink-0"
                   priority
                 />
-                <span className="text-lg font-bold tracking-tight">{t("home")}</span>
+                <span className="text-base font-semibold text-slate-700">{t("home")}</span>
               </Link>
               <HeaderSearchBar />
               <div className="hidden sm:flex items-center gap-4 text-sm font-medium text-slate-600 shrink-0">
@@ -235,7 +235,7 @@ export default async function LocaleLayout({
               <div className="mt-8 border-t border-slate-100 pt-6">
                 <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-lg">🐾</span>
+                    <Image src="/base.png" alt="BurrowSoft" width={24} height={24} className="shrink-0" />
                     <span className="text-sm font-semibold text-slate-700">BurrowSoft</span>
                     <span className="text-xs text-slate-400">· {tf("burrowsoft")}</span>
                   </div>
