@@ -4,7 +4,6 @@ import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import type { Product } from "@burrowsoft/shared";
 import { ProductCard } from "./ProductCard";
-import { AdUnit } from "./AdUnit";
 
 const THAI_DOMAINS = ["lazada.co.th", "shopee.co.th", "bnn.in.th", "powerbuy.co.th",
   "s.lazada.co.th", "s.shopee.co.th", "c.lazada.co.th", "an_redir"];
@@ -210,15 +209,8 @@ export function ProductResults({ products, query, country }: Props) {
         ) : (
           <>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-              {sorted.map((product, idx) => (
-                <>
-                  <ProductCard key={product.id} product={product} query={query} />
-                  {idx === 7 && (
-                    <div key="ad" className="col-span-2 sm:col-span-3 lg:col-span-4">
-                      <AdUnit slot="SEARCH_MID_SLOT" format="horizontal" />
-                    </div>
-                  )}
-                </>
+              {sorted.map((product) => (
+                <ProductCard key={product.id} product={product} query={query} />
               ))}
             </div>
           </>
