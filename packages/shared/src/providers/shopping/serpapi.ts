@@ -13,6 +13,21 @@ function makePrice(amount: number, currency: string, formatted?: string): Price 
   };
 }
 
+/** Construct a retailer-specific search URL when the direct product link is unavailable. */
+function buildRetailerSearchUrl(title: string, source: string): string {
+  const src = source.toLowerCase();
+  // Use first 6 words of the title to avoid overly specific queries
+  const q = encodeURIComponent(title.split(" ").slice(0, 6).join(" "));
+  if (src.includes("shopee"))                   return `https://shopee.co.th/search?keyword=${q}`;
+  if (src.includes("lazada"))                   return `https://www.lazada.co.th/catalog/?q=${q}`;
+  if (src.includes("powerbuy"))                 return `https://www.powerbuy.co.th/th/search?q=${q}`;
+  if (src.includes("bnn") || src.includes("banana")) return `https://www.bnn.in.th/th/search?keyword=${q}`;
+  if (src.includes("lotus"))                    return `https://www.lotuss.com/th/search?q=${q}`;
+  if (src.includes("amazon"))                   return `https://www.amazon.com/s?k=${q}`;
+  if (src.includes("ebay"))                     return `https://www.ebay.com/sch/i.html?_nkw=${q}`;
+  return "";
+}
+
 export class SerpApiShoppingProvider implements ShoppingProvider {
   readonly name = "Google Shopping";
   readonly supportedCountries: string[] = [];
@@ -66,11 +81,9 @@ export class SerpApiShoppingProvider implements ShoppingProvider {
       const title = String(r.title ?? "");
       const source = String(r.source ?? "");
 
-      // r.link        = direct retailer URL (preferred)
-      // r.product_link = Google Shopping product page — acceptable fallback,
-      //                  lets users click through to the retailer from Google
-      // Empty string   = non-clickable card
-      const retailerLink = String(r.link ?? r.url ?? r.buying_link ?? r.product_link ?? "");
+      // r.link preferred; fall back to a retailer search URL so cards are always clickable
+      const directLink = String(r.link ?? r.url ?? r.buying_link ?? "");
+      const retailerLink = directLink || buildRetailerSearchUrl(title, source);
 
       return {
         id: String(r.product_id ?? r.position ?? ""),

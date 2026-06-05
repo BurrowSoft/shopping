@@ -82,9 +82,9 @@ export function ProductResults({ products, query, country }: Props) {
       if (minRating > 0 && (p.rating ?? 0) < minRating) return false;
       if (withReviewsOnly && !p.reviewCount) return false;
       if (freeDeliveryOnly && !p.delivery?.toLowerCase().includes("free")) return false;
-      // TH: checked = Thai retailers only; unchecked = Thai retailers + eBay
+      // TH: checked = Thai retailers only; unchecked = Thai retailers + Amazon + eBay
       if (isThai && localOnly && !isThaiPlatform(p)) return false;
-      if (isThai && !localOnly && !isThaiPlatform(p) && !isEbayProduct(p)) return false;
+      if (isThai && !localOnly && !isThaiPlatform(p) && !isGlobalPlatform(p)) return false;
       // Non-TH: Amazon + eBay only
       if (!isThai && !isGlobalPlatform(p)) return false;
       return true;
