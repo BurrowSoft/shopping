@@ -30,7 +30,7 @@ export default async function OGImage() {
             ShoppingMole
           </span>
           <span style={{ fontSize: 28, color: "#c4b5fd" }}>
-            Clean Search. No Ads. No Sign-Up.
+            Compare Prices Across Hundreds of Stores
           </span>
         </div>
       </div>
