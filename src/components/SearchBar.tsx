@@ -101,7 +101,7 @@ export function SearchBar({ defaultValue = "", large = false }: SearchBarProps) 
         </svg>
         <input
           ref={inputRef}
-          type="search"
+          type="text"
           value={query}
           onChange={(e) => { setQuery(e.target.value); setActiveIndex(-1); }}
           onFocus={() => setFocused(true)}

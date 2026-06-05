@@ -53,7 +53,7 @@ export default async function HomePage() {
           >
             {t("title")}
           </h1>
-          <p className="text-base font-semibold tracking-wide text-amber-600 mt-2">
+          <p className="text-base font-semibold tracking-wide text-amber-300 mt-2">
             {tNoAds("tagline")}
           </p>
           <p className="mb-10 text-lg text-violet-100 sm:text-xl">{t("subtitle")}</p>
