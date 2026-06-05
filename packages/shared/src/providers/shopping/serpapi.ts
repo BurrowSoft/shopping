@@ -31,7 +31,7 @@ function buildRetailerSearchUrl(title: string, source: string): string {
   if (src.includes("lazada"))                        return `https://www.lazada.co.th/catalog/?q=${q}`;
   if (src.includes("powerbuy"))                      return `https://www.powerbuy.co.th/th/search?query=${q}`;
   if (src.includes("bnn") || src.includes("banana")) return `https://www.bnn.in.th/th/search?keyword=${q}`;
-  if (src.includes("lotus"))                         return `https://www.lotuss.com/th/search?q=${q}`;
+  if (src.includes("lotus"))                         return `https://www.lotuss.com/th/search?keyword=${q}`;
   if (src.includes("amazon"))                        return `https://www.amazon.com/s?k=${q}`;
   if (src.includes("ebay"))                          return `https://www.ebay.com/sch/i.html?_nkw=${q}`;
   return "";

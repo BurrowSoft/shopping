@@ -73,7 +73,7 @@ function makeCachedSearch(query: string, country: string, currency: string) {
       const router = createShoppingRouter();
       return router.search({ query, country, currency }, country);
     },
-    [`products:v4:${query}:${country}`],
+    [`products:v5:${query}:${country}`],
     { revalidate: 300 }
   );
 }
