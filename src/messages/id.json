@@ -56,7 +56,7 @@
     "detailUnavailable": "Perbandingan harga detail tidak tersedia untuk produk ini saat ini.",
     "result": "{count} hasil",
     "resultPlural": "{count} hasil",
-    "includeInternational": "Sertakan toko internasional"
+    "includeInternational": "Tampilkan toko lokal saja"
   },
   "footer": {
     "tagline": "Bandingkan harga di Amazon, eBay, Walmart, Best Buy, dan 500+ toko seketika.",

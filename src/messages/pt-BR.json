@@ -56,7 +56,7 @@
     "detailUnavailable": "A comparação detalhada de preços não está disponível para este produto agora.",
     "result": "{count} resultado",
     "resultPlural": "{count} resultados",
-    "includeInternational": "Incluir lojas internacionais"
+    "includeInternational": "Mostrar apenas lojas locais"
   },
   "footer": {
     "tagline": "Compare preços na Amazon, eBay, Walmart, Best Buy e 500+ lojas instantaneamente.",

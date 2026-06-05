@@ -56,7 +56,7 @@
     "detailUnavailable": "Подробное сравнение цен для этого товара сейчас недоступно.",
     "result": "{count} результат",
     "resultPlural": "{count} результатов",
-    "includeInternational": "Включить международные магазины"
+    "includeInternational": "Только местные магазины"
   },
   "footer": {
     "tagline": "Сравните цены на Amazon, eBay, Walmart, Best Buy и 500+ магазинах мгновенно.",

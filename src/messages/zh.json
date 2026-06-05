@@ -56,7 +56,7 @@
     "detailUnavailable": "此商品的详细价格比较暂时不可用。",
     "result": "{count} 个结果",
     "resultPlural": "{count} 个结果",
-    "includeInternational": "包含国际商店"
+    "includeInternational": "只显示本地商店"
   },
   "footer": {
     "tagline": "即刻比较亚马逊、eBay、Walmart、Best Buy及500+家商店的价格。",

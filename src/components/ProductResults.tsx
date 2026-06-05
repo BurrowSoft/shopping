@@ -32,8 +32,8 @@ export function ProductResults({ products, query, country }: Props) {
   const [sort, setSort] = useState<SortOption>("relevance");
   const [maxPrice, setMaxPrice] = useState<number>(Infinity);
   const [minRating, setMinRating] = useState(0);
-  // TH: unchecked = show only Lazada+Shopee; checked = show all
-  const [includeIntl, setIncludeIntl] = useState(false);
+  // TH: checked (default) = local retailers only; unchecked = show all
+  const [localOnly, setLocalOnly] = useState(true);
   const [withReviewsOnly, setWithReviewsOnly] = useState(false);
   const [freeDeliveryOnly, setFreeDeliveryOnly] = useState(false);
 
@@ -68,9 +68,9 @@ export function ProductResults({ products, query, country }: Props) {
       if (minRating > 0 && (p.rating ?? 0) < minRating) return false;
       if (withReviewsOnly && !p.reviewCount) return false;
       if (freeDeliveryOnly && !p.delivery?.toLowerCase().includes("free")) return false;
-      // TH users: unchecked = only Lazada+Shopee; checked = all
-      if (isThai && !includeIntl && !isThaiPlatform(p)) return false;
-      // Intl users: filter out Lazada+Shopee
+      // TH users: checked (default) = local retailers only; unchecked = show all
+      if (isThai && localOnly && !isThaiPlatform(p)) return false;
+      // Intl users: filter out Thai-specific platforms
       if (!isThai && isThaiPlatform(p)) return false;
       return true;
     });
@@ -188,25 +188,20 @@ export function ProductResults({ products, query, country }: Props) {
 
         {isThai && (
           <label className={`mb-4 flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition-colors ${
-            includeIntl
-              ? "border-slate-200 bg-slate-50 text-slate-600"
-              : "border-orange-200 bg-orange-50 text-orange-800"
+            localOnly
+              ? "border-orange-200 bg-orange-50 text-orange-800"
+              : "border-slate-200 bg-slate-50 text-slate-600"
           }`}>
             <input
               type="checkbox"
-              checked={includeIntl}
-              onChange={(e) => setIncludeIntl(e.target.checked)}
+              checked={localOnly}
+              onChange={(e) => setLocalOnly(e.target.checked)}
               className="h-4 w-4 accent-orange-500"
             />
             <span className="text-sm font-medium">
-              {includeIntl ? "🌏 " : "🛒 "}
+              {localOnly ? "🛒 " : "🌏 "}
               {t("includeInternational")}
             </span>
-            {!includeIntl && (
-              <span className="ml-auto text-xs text-orange-500 font-medium">
-                Lazada · Shopee
-              </span>
-            )}
           </label>
         )}
 
