@@ -19,7 +19,7 @@ export default async function OGImage() {
           gap: 40,
           width: "100%",
           height: "100%",
-          background: "linear-gradient(135deg, #831843 0%, #be185d 100%)",
+          background: "linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #4c1d95 100%)",
           fontFamily: "sans-serif",
         }}
       >
@@ -29,7 +29,7 @@ export default async function OGImage() {
           <span style={{ fontSize: 64, fontWeight: 800, color: "#f8fafc" }}>
             ShoppingMole
           </span>
-          <span style={{ fontSize: 28, color: "#94a3b8" }}>
+          <span style={{ fontSize: 28, color: "#c4b5fd" }}>
             Clean Search. No Ads. No Sign-Up.
           </span>
         </div>
