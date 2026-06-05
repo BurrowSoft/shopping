@@ -24,7 +24,7 @@ const getShopeeDeals = unstable_cache(
         offers: p.offers.map((o) => ({ ...o, link: buildShopeeAffiliateUrl(o.link) })),
       }));
   },
-  ["shopee-deals-th"],
+  ["shopee-deals-th-v2"],
   { revalidate: 86400 } // 24 hours
 );
 

@@ -16,15 +16,24 @@ function makePrice(amount: number, currency: string, formatted?: string): Price 
 /** Construct a retailer-specific search URL when the direct product link is unavailable. */
 function buildRetailerSearchUrl(title: string, source: string): string {
   const src = source.toLowerCase();
-  // Use first 6 words of the title to avoid overly specific queries
-  const q = encodeURIComponent(title.split(" ").slice(0, 6).join(" "));
-  if (src.includes("shopee"))                   return `https://shopee.co.th/search?keyword=${q}`;
-  if (src.includes("lazada"))                   return `https://www.lazada.co.th/catalog/?q=${q}`;
-  if (src.includes("powerbuy"))                 return `https://www.powerbuy.co.th/th/search?q=${q}`;
+  // Strip Thai/non-ASCII characters — many retailer search endpoints break on them.
+  // Take first 4 English words only for a clean, short query.
+  const englishWords = title
+    .split(" ")
+    // eslint-disable-next-line no-control-regex
+    .filter((w) => /^[\x00-\x7F]+$/.test(w))
+    .slice(0, 4)
+    .join(" ")
+    .trim();
+  if (!englishWords) return "";
+  const q = encodeURIComponent(englishWords);
+  if (src.includes("shopee"))                        return `https://shopee.co.th/search?keyword=${q}`;
+  if (src.includes("lazada"))                        return `https://www.lazada.co.th/catalog/?q=${q}`;
+  if (src.includes("powerbuy"))                      return `https://www.powerbuy.co.th/th/search?query=${q}`;
   if (src.includes("bnn") || src.includes("banana")) return `https://www.bnn.in.th/th/search?keyword=${q}`;
-  if (src.includes("lotus"))                    return `https://www.lotuss.com/th/search?q=${q}`;
-  if (src.includes("amazon"))                   return `https://www.amazon.com/s?k=${q}`;
-  if (src.includes("ebay"))                     return `https://www.ebay.com/sch/i.html?_nkw=${q}`;
+  if (src.includes("lotus"))                         return `https://www.lotuss.com/th/search?q=${q}`;
+  if (src.includes("amazon"))                        return `https://www.amazon.com/s?k=${q}`;
+  if (src.includes("ebay"))                          return `https://www.ebay.com/sch/i.html?_nkw=${q}`;
   return "";
 }
 
