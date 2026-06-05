@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { Link } from "@/i18n/navigation";
-import { AdUnit } from "@/components/AdUnit";
 import { ProductImageGallery } from "@/components/ProductImageGallery";
 import { PriceCompareTable } from "@/components/PriceCompareTable";
 import { StarRating } from "@/components/StarRating";
@@ -167,7 +166,6 @@ export default async function ProductPage({ params, searchParams }: Props) {
         {product.offers.length > 0 && (
           <div className="mt-10"><PriceCompareTable offers={product.offers} /></div>
         )}
-        <div className="mt-8"><AdUnit slot="PRODUCT_BANNER_SLOT" format="horizontal" /></div>
 
         <section className="mt-10 rounded-xl border border-slate-100 bg-white p-6">
           <h2 className="mb-3 text-base font-semibold text-slate-700">About this product</h2>

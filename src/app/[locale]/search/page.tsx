@@ -3,7 +3,6 @@ import { headers } from "next/headers";
 import { Link } from "@/i18n/navigation";
 import { SearchBar } from "@/components/SearchBar";
 import { SearchPageClient } from "@/components/SearchPageClient";
-import { AdUnit } from "@/components/AdUnit";
 import { buildSearchMetadata, SITE_NAME, SITE_URL } from "@/lib/seo";
 import { getCurrencyForCountry } from "@/lib/currency";
 import { detectCountry } from "@burrowsoft/shared";
@@ -61,9 +60,6 @@ export default async function SearchPage({ searchParams }: Props) {
         />
       </div>
 
-      <div className="mx-auto max-w-5xl px-4 py-4">
-        <AdUnit slot="SEARCH_BOTTOM_SLOT" format="horizontal" />
-      </div>
 
       <p className="mx-auto max-w-4xl px-4 pb-8 text-xs text-slate-400 text-center">
         Results powered by Google Shopping · Affiliate links may earn {SITE_NAME} a commission ·{" "}

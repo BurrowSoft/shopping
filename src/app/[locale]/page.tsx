@@ -3,7 +3,6 @@ import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { SearchBar } from "@/components/SearchBar";
-import { AdUnit } from "@/components/AdUnit";
 import { LazadaDealsBanner } from "@/components/LazadaDealsBanner";
 import { ShopeeDealsSection } from "@/components/ShopeeDealsSection";
 import { CATEGORIES, TRENDING_SEARCHES, FEATURES } from "@/lib/data";
@@ -111,9 +110,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-5xl px-4 py-2">
-        <AdUnit slot="HOME_BANNER_SLOT" format="horizontal" />
-      </div>
+
 
       <section className="bg-white py-14" aria-labelledby="features-heading">
         <div className="mx-auto max-w-7xl px-4">
