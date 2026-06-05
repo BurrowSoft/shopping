@@ -51,6 +51,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const canonical = locale === "en" ? `${BASE}/` : `${BASE}/${locale}/`;
+  const tNoAds = await getTranslations({ locale, namespace: "noAds" });
+  const tagline = tNoAds("tagline");
+  const fullDescription = `${tagline} — ${SITE_DESCRIPTION}`;
 
   return {
     metadataBase: new URL(BASE),
@@ -58,7 +61,7 @@ export async function generateMetadata({
       default: `${SITE_NAME} — Compare Prices Across Hundreds of Stores`,
       template: `%s | ${SITE_NAME}`,
     },
-    description: SITE_DESCRIPTION,
+    description: fullDescription,
     keywords: [
       "price comparison", "best deals", "cheapest price", "product comparison",
       "discount shopping", "online deals", "buy cheap", "price tracker", "shopping search engine",
@@ -79,12 +82,12 @@ export async function generateMetadata({
       url: canonical,
       siteName: SITE_NAME,
       title: `${SITE_NAME} — Compare Prices Across Hundreds of Stores`,
-      description: SITE_DESCRIPTION,
+      description: fullDescription,
     },
     twitter: {
       card: "summary_large_image",
       title: `${SITE_NAME} — Compare Prices Across Hundreds of Stores`,
-      description: SITE_DESCRIPTION,
+      description: fullDescription,
     },
     icons: {
       icon: [
