@@ -1,34 +1,37 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
-export const runtime = "edge";
-export const alt = "ShoppingMole — Compare prices across 500+ stores";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OgImage() {
+export default async function OGImage() {
+  const iconData = await readFile(join(process.cwd(), "public/icon-512.png"));
+  const iconSrc = `data:image/png;base64,${iconData.toString("base64")}`;
+
   return new ImageResponse(
     (
       <div
         style={{
-          background: "linear-gradient(135deg, #6d28d9 0%, #7c3aed 50%, #8b5cf6 100%)",
-          width: "100%",
-          height: "100%",
           display: "flex",
-          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
+          gap: 40,
+          width: "100%",
+          height: "100%",
+          background: "linear-gradient(135deg, #831843 0%, #be185d 100%)",
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ fontSize: 110, marginBottom: 24 }}>🛍️</div>
-        <div style={{ fontSize: 72, fontWeight: 900, color: "white", letterSpacing: "-2px", marginBottom: 16 }}>
-          ShoppingMole
-        </div>
-        <div style={{ fontSize: 30, color: "rgba(255,255,255,0.8)", maxWidth: 700, textAlign: "center", lineHeight: 1.4 }}>
-          Compare prices across 500+ stores instantly
-        </div>
-        <div style={{ marginTop: 40, fontSize: 22, color: "rgba(255,255,255,0.55)", letterSpacing: "1px" }}>
-          shoppingmole.com
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={iconSrc} width={180} height={180} alt="" />
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <span style={{ fontSize: 64, fontWeight: 800, color: "#f8fafc" }}>
+            ShoppingMole
+          </span>
+          <span style={{ fontSize: 28, color: "#94a3b8" }}>
+            Clean Search. No Ads. No Sign-Up.
+          </span>
         </div>
       </div>
     ),

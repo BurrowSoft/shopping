@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
+import Image from "next/image";
 import { headers } from "next/headers";
 import {
   Sarabun,
@@ -157,10 +158,17 @@ export default async function LocaleLayout({
             >
               <Link
                 href="/"
-                className="flex shrink-0 items-center gap-2 font-bold text-violet-600 text-xl"
+                className="flex items-center gap-2.5"
               >
-                <span aria-hidden>🛍️</span>
-                {t("home")}
+                <Image
+                  src="/mascot.svg"
+                  alt="ShoppingMole"
+                  width={36}
+                  height={36}
+                  className="shrink-0"
+                  priority
+                />
+                <span className="text-lg font-bold tracking-tight">{t("home")}</span>
               </Link>
               <HeaderSearchBar />
               <div className="hidden sm:flex items-center gap-4 text-sm font-medium text-slate-600 shrink-0">
