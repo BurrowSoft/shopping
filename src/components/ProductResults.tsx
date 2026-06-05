@@ -6,16 +6,13 @@ import type { Product } from "@burrowsoft/shared";
 import { ProductCard } from "./ProductCard";
 import { AdUnit } from "./AdUnit";
 
-const THAI_DOMAINS = ["lazada.co.th", "shopee.co.th", "bnn.in.th", "powerbuy.co.th"];
-const THAI_SOURCE_KEYWORDS = ["lazada", "shopee", "bnn", "banana", "powerbuy"];
+const THAI_DOMAINS = ["lazada.co.th", "shopee.co.th", "bnn.in.th", "powerbuy.co.th",
+  "s.lazada.co.th", "s.shopee.co.th", "c.lazada.co.th", "an_redir"];
 
 function isThaiPlatform(p: Product) {
+  // Only trust the link, not the source name — source can say "Powerbuy" but link may be google.com
   const link = p.link || p.offers[0]?.link || "";
-  const src = p.source.toLowerCase();
-  return (
-    THAI_DOMAINS.some((d) => link.includes(d)) ||
-    THAI_SOURCE_KEYWORDS.some((k) => src.includes(k))
-  );
+  return link.length > 0 && THAI_DOMAINS.some((d) => link.includes(d));
 }
 
 interface Props {
