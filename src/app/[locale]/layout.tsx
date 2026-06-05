@@ -163,12 +163,12 @@ export default async function LocaleLayout({
                 <Image
                   src="/shopping.png"
                   alt="ShoppingMole"
-                  width={36}
-                  height={36}
+                  width={40}
+                  height={40}
                   className="shrink-0"
                   priority
                 />
-                <span className="text-base font-semibold text-slate-700">{t("home")}</span>
+                <span className="text-xl font-bold text-violet-600">{t("home")}</span>
               </Link>
               <HeaderSearchBar />
               <div className="hidden sm:flex items-center gap-4 text-sm font-medium text-slate-600 shrink-0">
