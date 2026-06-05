@@ -175,3 +175,44 @@ export function isBnnUrl(url: string): boolean {
 export function isPowerbuyUrl(url: string): boolean {
   return url.includes("powerbuy.co.th");
 }
+
+export function buildLotussAffiliateUrl(url: string): string {
+  return buildPspnUrl(url, "20005", {
+    af_siteid: "20005",
+    pid: "priceza_int",
+    af_click_lookback: "30d",
+  });
+}
+
+export function isLotussUrl(url: string): boolean {
+  return url.includes("lotuss.com");
+}
+
+// ─── eBay — eBay Partner Network (EPN) ───────────────────────────────────────
+// campid=5339155714 is your EPN campaign ID — stays the same across all eBay sites
+// Env: EBAY_CAMPAIGN_ID
+
+export function buildEbayAffiliateUrl(url: string): string {
+  const campId = process.env.EBAY_CAMPAIGN_ID;
+  if (!campId || !url.includes("ebay.")) return url;
+  try {
+    const parsed = new URL(url);
+    // Strip any existing EPN params
+    ["mkcid", "mkrid", "siteid", "campid", "toolid", "customid", "mkevt"].forEach((p) =>
+      parsed.searchParams.delete(p)
+    );
+    parsed.searchParams.set("campid", campId);
+    parsed.searchParams.set("mkcid", "1");
+    parsed.searchParams.set("mkrid", "711-53200-19255-0");
+    parsed.searchParams.set("siteid", "0");
+    parsed.searchParams.set("toolid", "20014");
+    parsed.searchParams.set("mkevt", "1");
+    return parsed.toString();
+  } catch {
+    return url;
+  }
+}
+
+export function isEbayUrl(url: string): boolean {
+  return url.includes("ebay.");
+}

@@ -10,6 +10,10 @@ import {
   isBnnUrl,
   buildPowerbuyAffiliateUrl,
   isPowerbuyUrl,
+  buildLotussAffiliateUrl,
+  isLotussUrl,
+  buildEbayAffiliateUrl,
+  isEbayUrl,
 } from "@/lib/lazada-affiliate";
 
 interface ProductsResponse {
@@ -95,6 +99,12 @@ function mergeProducts(a: Product[], b: Product[]): Product[] {
 function applyPspnLink(url: string): string {
   if (isBnnUrl(url)) return buildBnnAffiliateUrl(url);
   if (isPowerbuyUrl(url)) return buildPowerbuyAffiliateUrl(url);
+  if (isLotussUrl(url)) return buildLotussAffiliateUrl(url);
+  return url;
+}
+
+function applyGlobalAffiliateLinks(url: string): string {
+  if (isEbayUrl(url)) return buildEbayAffiliateUrl(url);
   return url;
 }
 
@@ -163,10 +173,14 @@ export async function GET(request: Request) {
 
     const summary = await summarize("shopping", products, country);
 
-    const finalProducts =
-      country === "TH"
-        ? await applyThaiAffiliateLinks(products)
-        : products;
+    // Thai users: apply Thai affiliate links (Shopee, Lazada, BNN, Powerbuy, Lotus's)
+    // All users: apply global affiliate links (eBay etc.)
+    const withThaiLinks = country === "TH" ? await applyThaiAffiliateLinks(products) : products;
+    const finalProducts = withThaiLinks.map((p) => ({
+      ...p,
+      link: applyGlobalAffiliateLinks(p.link),
+      offers: p.offers.map((o) => ({ ...o, link: applyGlobalAffiliateLinks(o.link) })),
+    }));
 
     return Response.json({ products: finalProducts, summary });
   } catch {

@@ -66,10 +66,11 @@ export class SerpApiShoppingProvider implements ShoppingProvider {
       const title = String(r.title ?? "");
       const source = String(r.source ?? "");
 
-      // r.link = direct retailer URL (preferred)
-      // r.product_link = Google Shopping product page (acceptable fallback)
-      // Empty string = non-clickable card (better than landing on Google search)
-      const retailerLink = String(r.link ?? r.url ?? r.buying_link ?? "");
+      // r.link        = direct retailer URL (preferred)
+      // r.product_link = Google Shopping product page — acceptable fallback,
+      //                  lets users click through to the retailer from Google
+      // Empty string   = non-clickable card
+      const retailerLink = String(r.link ?? r.url ?? r.buying_link ?? r.product_link ?? "");
 
       return {
         id: String(r.product_id ?? r.position ?? ""),

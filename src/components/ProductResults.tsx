@@ -6,8 +6,8 @@ import type { Product } from "@burrowsoft/shared";
 import { ProductCard } from "./ProductCard";
 
 const THAI_DOMAINS = ["lazada.co.th", "shopee.co.th", "bnn.in.th", "powerbuy.co.th",
-  "s.lazada.co.th", "s.shopee.co.th", "c.lazada.co.th", "an_redir"];
-const THAI_SOURCE_KEYWORDS = ["lazada", "shopee", "bnn", "banana", "powerbuy"];
+  "lotuss.com", "s.lazada.co.th", "s.shopee.co.th", "c.lazada.co.th", "an_redir"];
+const THAI_SOURCE_KEYWORDS = ["lazada", "shopee", "bnn", "banana", "powerbuy", "lotus"];
 
 function isThaiPlatform(p: Product) {
   const link = p.link || p.offers[0]?.link || "";
@@ -35,8 +35,6 @@ export function ProductResults({ products, query, country }: Props) {
   const [sort, setSort] = useState<SortOption>("relevance");
   const [maxPrice, setMaxPrice] = useState<number>(Infinity);
   const [minRating, setMinRating] = useState(0);
-  // TH: checked (default) = local retailers only; unchecked = show all
-  const [localOnly, setLocalOnly] = useState(true);
   const [withReviewsOnly, setWithReviewsOnly] = useState(false);
   const [freeDeliveryOnly, setFreeDeliveryOnly] = useState(false);
 
@@ -71,13 +69,13 @@ export function ProductResults({ products, query, country }: Props) {
       if (minRating > 0 && (p.rating ?? 0) < minRating) return false;
       if (withReviewsOnly && !p.reviewCount) return false;
       if (freeDeliveryOnly && !p.delivery?.toLowerCase().includes("free")) return false;
-      // TH users: checked (default) = local retailers only; unchecked = show all
-      if (isThai && localOnly && !isThaiPlatform(p)) return false;
+      // TH users: always show only affiliated Thai retailers
+      if (isThai && !isThaiPlatform(p)) return false;
       // Intl users: filter out Thai-specific platforms
       if (!isThai && isThaiPlatform(p)) return false;
       return true;
     });
-  }, [products, maxPrice, minRating, withReviewsOnly, freeDeliveryOnly, isThai, localOnly]);
+  }, [products, maxPrice, minRating, withReviewsOnly, freeDeliveryOnly, isThai]);
 
   const sorted = useMemo(() => {
     return [...filtered].sort((a, b) => {
@@ -189,24 +187,6 @@ export function ProductResults({ products, query, country }: Props) {
           </span>
         </div>
 
-        {isThai && (
-          <label className={`mb-4 flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition-colors ${
-            localOnly
-              ? "border-orange-200 bg-orange-50 text-orange-800"
-              : "border-slate-200 bg-slate-50 text-slate-600"
-          }`}>
-            <input
-              type="checkbox"
-              checked={localOnly}
-              onChange={(e) => setLocalOnly(e.target.checked)}
-              className="h-4 w-4 accent-orange-500"
-            />
-            <span className="text-sm font-medium">
-              {localOnly ? "🛒 " : "🌏 "}
-              {t("includeInternational")}
-            </span>
-          </label>
-        )}
 
         {sorted.length === 0 ? (
           <div className="rounded-xl border border-dashed border-slate-200 py-20 text-center">
