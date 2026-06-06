@@ -13,29 +13,6 @@ function makePrice(amount: number, currency: string, formatted?: string): Price 
   };
 }
 
-/** Construct a retailer-specific search URL when the direct product link is unavailable. */
-function buildRetailerSearchUrl(title: string, source: string): string {
-  const src = source.toLowerCase();
-  // Keep only clean alphabetic words (strips Thai, punctuation like parens/commas, pure numbers).
-  const englishWords = title
-    .split(/\s+/)
-    .map((w) => w.replace(/[^a-zA-Z0-9]/g, ""))
-    .filter((w) => /^[a-zA-Z][a-zA-Z0-9]*$/.test(w))
-    .slice(0, 4)
-    .join(" ")
-    .trim();
-  if (!englishWords) return "";
-  const q = encodeURIComponent(englishWords);
-  if (src.includes("shopee"))                        return `https://shopee.co.th/search?keyword=${q}`;
-  if (src.includes("lazada"))                        return `https://www.lazada.co.th/catalog/?q=${q}`;
-  if (src.includes("powerbuy"))                      return `https://www.powerbuy.co.th/th/search?keyword=${q}`;
-  if (src.includes("bnn") || src.includes("banana")) return `https://www.bnn.in.th/en/search?q=${q}`;
-  if (src.includes("lotus"))                         return `https://www.lotuss.com/en/search?q=${q}`;
-  if (src.includes("amazon"))                        return `https://www.amazon.com/s?k=${q}`;
-  if (src.includes("ebay"))                          return `https://www.ebay.com/sch/i.html?_nkw=${q}`;
-  return "";
-}
-
 export class SerpApiShoppingProvider implements ShoppingProvider {
   readonly name = "Google Shopping";
   readonly supportedCountries: string[] = [];
@@ -72,30 +49,14 @@ export class SerpApiShoppingProvider implements ShoppingProvider {
     const data = (await res.json()) as Record<string, unknown>;
     const results = ((data.shopping_results as Record<string, unknown>[]) ?? []);
 
-    // Log first result once per cache fill so we can inspect real field names in Vercel logs
-    if (results[0]) {
-      const first = results[0];
-      console.log("[SerpAPI] first result keys:", Object.keys(first).join(", "));
-      console.log("[SerpAPI] link candidates:", JSON.stringify({
-        link: first.link, product_link: first.product_link, url: first.url,
-        serpapi_link: first.serpapi_link, buying_link: first.buying_link,
-      }));
-    }
-
     return results.slice(0, 24).map((r) => {
       const rawPrice = (r.extracted_price as number | undefined) ?? 0;
       const rawOldPrice = r.extracted_old_price as number | undefined;
       const currency = params.currency;
-      const title = String(r.title ?? "");
-      const source = String(r.source ?? "");
-
-      // r.link preferred; fall back to a retailer search URL so cards are always clickable
-      const directLink = String(r.link ?? r.url ?? r.buying_link ?? "");
-      const retailerLink = directLink || buildRetailerSearchUrl(title, source);
 
       return {
         id: String(r.product_id ?? r.position ?? ""),
-        title,
+        title: String(r.title ?? ""),
         thumbnail: String(r.thumbnail ?? ""),
         images: r.thumbnail ? [String(r.thumbnail)] : [],
         rating: r.rating as number | undefined,
@@ -106,17 +67,17 @@ export class SerpApiShoppingProvider implements ShoppingProvider {
           : undefined,
         offers: [
           {
-            retailer: source,
+            retailer: String(r.source ?? ""),
             price: makePrice(rawPrice, currency, r.price as string | undefined),
             originalPrice: rawOldPrice
               ? makePrice(rawOldPrice, currency, r.old_price as string | undefined)
               : undefined,
-            link: retailerLink,
+            link: String(r.link ?? ""),
             delivery: r.delivery as string | undefined,
           },
         ],
-        link: retailerLink,
-        source,
+        link: String(r.link ?? ""),
+        source: String(r.source ?? ""),
         delivery: r.delivery as string | undefined,
         provider: this.name,
       } satisfies Product;
