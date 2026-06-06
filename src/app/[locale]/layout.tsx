@@ -130,7 +130,7 @@ export default async function LocaleLayout({
           <AppHeader
             logo={
               <Link href="/" className="flex shrink-0 items-center gap-2.5">
-                <Image src="/mascot.svg" alt="ShoppingMole" width={40} height={40} className="shrink-0" priority />
+                <Image src="/shopping.png" alt="ShoppingMole" width={40} height={40} className="shrink-0" priority />
                 <span className="text-xl font-bold text-violet-600">{t("home")}</span>
               </Link>
             }
