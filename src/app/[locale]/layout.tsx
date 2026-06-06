@@ -55,7 +55,7 @@ export async function generateMetadata({
   const hdrs = await headers();
   const country = detectCountry(Object.fromEntries(hdrs.entries()));
   const countryName = getCountryName(country);
-  const desc = `Looking for the best prices in ${countryName}? ShoppingMole compares hundreds of stores instantly. No account needed. No ads. Always free.`;
+  const desc = `Clean Search. NO ADS. No sign-up. Looking for the best prices in ${countryName}? ShoppingMole compares hundreds of stores instantly. Always free.`;
 
   return {
     metadataBase: new URL(BASE),
