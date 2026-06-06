@@ -60,8 +60,8 @@ export async function generateMetadata({
   return {
     metadataBase: new URL(BASE),
     title: {
-      default: `Shopping Search in ${countryName} — ShoppingMole`,
-      template: `%s | ShoppingMole`,
+      default: `Shopping Search in ${countryName} — Shopping Mole`,
+      template: `%s | Shopping Mole`,
     },
     description: desc,
     keywords: ["price comparison","best deals","cheapest price","product comparison","discount shopping","online deals","buy cheap","price tracker","shopping search engine"],
@@ -78,12 +78,12 @@ export async function generateMetadata({
       type: "website",
       url: canonical,
       siteName: SITE_NAME,
-      title: `Shopping Search in ${countryName} — ShoppingMole`,
+      title: `Shopping Search in ${countryName} — Shopping Mole`,
       description: desc,
     },
     twitter: {
       card: "summary_large_image",
-      title: `Shopping Search in ${countryName} — ShoppingMole`,
+      title: `Shopping Search in ${countryName} — Shopping Mole`,
       description: desc,
     },
     verification: { google: "ZUD6hhvx3bUNKNxgTn77303ZxBB-F4U3_Y0knlguQdI" },
