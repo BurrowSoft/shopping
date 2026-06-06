@@ -20,7 +20,7 @@ import { getCurrencyForCountry } from "@/lib/currency";
 import { CurrencyProvider } from "@/components/CurrencyProvider";
 import { HeaderSearchBar } from "@/components/HeaderSearchBar";
 import { LocaleSwitch } from "@/components/LocaleSwitch";
-import { detectCountry, AppHeader, AppFooter } from "@burrowsoft/shared";
+import { detectCountry, getCountryName, AppHeader, AppFooter } from "@burrowsoft/shared";
 import "../globals.css";
 
 const sarabun = Sarabun({ subsets: ["thai", "latin"], weight: ["400", "600", "700"], display: "swap", variable: "--font-sarabun" });
@@ -52,21 +52,25 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const canonical = locale === "en" ? `${BASE}/` : `${BASE}/${locale}/`;
-  const tNoAds = await getTranslations({ locale, namespace: "noAds" });
-  const tagline = tNoAds("tagline");
-  const fullDescription = `${tagline} — ${SITE_DESCRIPTION}`;
+  const hdrs = await headers();
+  const country = detectCountry(Object.fromEntries(hdrs.entries()));
+  const countryName = getCountryName(country);
+  const desc = `Looking for the best prices in ${countryName}? ShoppingMole compares hundreds of stores instantly. No account needed. No ads. Always free.`;
 
   return {
     metadataBase: new URL(BASE),
     title: {
-      default: `${SITE_NAME} — Compare Prices Across Hundreds of Stores`,
-      template: `%s | ${SITE_NAME}`,
+      default: `Shopping Search in ${countryName} — ShoppingMole`,
+      template: `%s | ShoppingMole`,
     },
-    description: fullDescription,
+    description: desc,
     keywords: ["price comparison","best deals","cheapest price","product comparison","discount shopping","online deals","buy cheap","price tracker","shopping search engine"],
     alternates: {
       canonical,
-      languages: Object.fromEntries(routing.locales.map((l) => [l, l === "en" ? `${BASE}/` : `${BASE}/${l}/`])),
+      languages: Object.fromEntries([
+        ...routing.locales.map((l) => [l, l === "en" ? `${BASE}/` : `${BASE}/${l}/`]),
+        ["x-default", `${BASE}/`],
+      ]),
     },
     authors: [{ name: SITE_NAME }],
     creator: SITE_NAME,
@@ -74,13 +78,13 @@ export async function generateMetadata({
       type: "website",
       url: canonical,
       siteName: SITE_NAME,
-      title: `${SITE_NAME} — Compare Prices Across Hundreds of Stores`,
-      description: fullDescription,
+      title: `Shopping Search in ${countryName} — ShoppingMole`,
+      description: desc,
     },
     twitter: {
       card: "summary_large_image",
-      title: `${SITE_NAME} — Compare Prices Across Hundreds of Stores`,
-      description: fullDescription,
+      title: `Shopping Search in ${countryName} — ShoppingMole`,
+      description: desc,
     },
     verification: { google: "ZUD6hhvx3bUNKNxgTn77303ZxBB-F4U3_Y0knlguQdI" },
     other: { "google-adsense-account": "ca-pub-1009857008755875" },
