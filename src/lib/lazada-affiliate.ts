@@ -221,14 +221,32 @@ export function isEbayUrl(url: string): boolean {
 // Tag: AMAZON_AFFILIATE_TAG (e.g. burrowsoft-20)
 // Applies to all amazon.* domains — just append ?tag=
 
+const AMAZON_DOMAIN_LANGUAGE: Record<string, string> = {
+  "amazon.co.th":  "th_TH",
+  "amazon.co.jp":  "ja_JP",
+  "amazon.co.uk":  "en_GB",
+  "amazon.de":     "de_DE",
+  "amazon.fr":     "fr_FR",
+  "amazon.it":     "it_IT",
+  "amazon.es":     "es_ES",
+  "amazon.com.au": "en_AU",
+  "amazon.com.br": "pt_BR",
+  "amazon.com.mx": "es_MX",
+  "amazon.in":     "en_IN",
+  "amazon.ca":     "en_CA",
+  "amazon.com":    "en_US",
+};
+
 export function buildAmazonAffiliateUrl(url: string): string {
   const tag = process.env.AMAZON_AFFILIATE_TAG;
   if (!tag || !url.includes("amazon.")) return url;
   try {
     const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, "");
+    const language = AMAZON_DOMAIN_LANGUAGE[host] ?? "en_US";
     parsed.searchParams.set("tag", tag);
     parsed.searchParams.set("linkCode", "ll2");
-    parsed.searchParams.set("language", "en_US");
+    parsed.searchParams.set("language", language);
     parsed.searchParams.set("ref_", "as_li_ss_tl");
     return parsed.toString();
   } catch {
