@@ -227,6 +227,9 @@ export function buildAmazonAffiliateUrl(url: string): string {
   try {
     const parsed = new URL(url);
     parsed.searchParams.set("tag", tag);
+    parsed.searchParams.set("linkCode", "ll2");
+    parsed.searchParams.set("language", "en_US");
+    parsed.searchParams.set("ref_", "as_li_ss_tl");
     return parsed.toString();
   } catch {
     return url;
