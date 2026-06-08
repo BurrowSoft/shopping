@@ -120,13 +120,11 @@ export default async function LocaleLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
         />
-        {process.env.NEXT_PUBLIC_ADSENSE_ID && (
-          <script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
-            crossOrigin="anonymous"
-          />
-        )}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1009857008755875"
+          crossOrigin="anonymous"
+        />
         <meta name="fo-verify" content="54470fe7-e39c-481c-8933-e4e830517781" />
       </head>
       <body className="min-h-screen bg-slate-50 text-slate-900 antialiased">
